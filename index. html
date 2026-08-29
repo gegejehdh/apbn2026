@@ -1,0 +1,1962 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulasi Cerdas Cermat Olimpiade APBN 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen flex flex-col">
+
+    <!-- Header / Navbar -->
+    <header class="bg-blue-950 border-b border-blue-800 sticky top-0 z-50 shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="bg-amber-500 text-slate-900 font-extrabold px-3 py-1.5 rounded-lg text-sm shadow">
+                    PKN STAN
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg text-white">Olimpiade APBN 2025</h1>
+                    <p class="text-xs text-amber-400">Modul Mengupas Tuntas APBN Kita Edisi IV</p>
+                </div>
+            </div>
+            <div id="timer-box" class="hidden items-center bg-slate-900 border border-blue-700 px-4 py-2 rounded-xl text-amber-400 font-mono font-bold text-lg shadow-inner">
+                ⏱️ <span id="timer">01:30:00</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-5xl w-full mx-auto p-4 sm:p-6 my-auto">
+
+        <!-- Welcome View -->
+        <div id="welcome-view" class="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-10 shadow-2xl text-center space-y-6">
+            <div class="inline-block bg-blue-600/20 text-blue-400 border border-blue-500/30 px-4 py-1.5 rounded-full text-sm font-semibold">
+                Simulasi Resmi Tingkat Nasional
+            </div>
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">
+                Cerdas Cermat & Analisis APBN 2025
+            </h2>
+            <p class="text-slate-300 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
+                Uji kemampuan analisis dan penguasaan materi keuangan negara Anda melalui 100 soal komprehensif berdasarkan modul resmi PKN STAN. Pertanyaan mencakup konsep dasar APBN, siklus anggaran, BMN, BLU, hingga hubungan keuangan pusat dan daerah.
+            </p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto py-2 text-left text-sm">
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                    <span class="block text-amber-400 font-bold text-lg">100 Soal</span>
+                    <span class="text-slate-400">Pilihan Ganda (Opsi A - E)</span>
+                </div>
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                    <span class="block text-amber-400 font-bold text-lg">90 Menit</span>
+                    <span class="text-slate-400">Waktu Pengerjaan Total</span>
+                </div>
+                <div class="bg-slate-900/60 p-4 rounded-xl border border-slate-700">
+                    <span class="block text-amber-400 font-bold text-lg">Evaluasi</span>
+                    <span class="text-slate-400">Pembahasan & Skor Otomatis</span>
+                </div>
+            </div>
+
+            <button onclick="startQuiz()" class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5 cursor-pointer text-lg">
+                Mulai Ujian Sekarang 🚀
+            </button>
+        </div>
+
+        <!-- Quiz View -->
+        <div id="quiz-view" class="hidden space-y-6">
+            <!-- Progress & Navigator Bar -->
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4 flex flex-wrap justify-between items-center gap-4">
+                <div class="text-sm font-semibold text-slate-300">
+                    Soal <span id="current-q-num" class="text-amber-400 font-bold text-base">1</span> dari <span id="total-q-num">100</span>
+                </div>
+                <div class="w-full sm:w-64 bg-slate-700 h-2.5 rounded-full overflow-hidden">
+                    <div id="progress-bar" class="bg-amber-500 h-full w-0 transition-all duration-300"></div>
+                </div>
+                <div class="text-xs text-slate-400 font-medium">
+                    Belum dijawab: <span id="unanswered-count" class="text-amber-400 font-bold">100</span>
+                </div>
+            </div>
+
+            <!-- Question Card -->
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-8 shadow-xl space-y-6">
+                <div class="flex items-center justify-between">
+                    <span id="question-badge" class="bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs px-3 py-1 rounded-full font-semibold">Analisis Kasus</span>
+                    <span id="question-id" class="text-xs text-slate-400 font-mono">No. 1</span>
+                </div>
+                
+                <h3 id="question-text" class="text-base sm:text-lg font-semibold text-white leading-relaxed">
+                    Pertanyaan soal akan dimuat di sini...
+                </h3>
+
+                <!-- Options List (A - E) -->
+                <div id="options-container" class="space-y-3">
+                    <!-- Dynamic Options -->
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="flex justify-between items-center pt-2">
+                <button onclick="prevQuestion()" id="prev-btn" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-5 py-2.5 rounded-xl transition disabled:opacity-40 disabled:cursor-not-allowed">
+                    ← Sebelumnya
+                </button>
+                <div class="flex space-x-3">
+                    <button onclick="nextQuestion()" id="next-btn" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-2.5 rounded-xl transition">
+                        Selanjutnya →
+                    </button>
+                    <button onclick="confirmSubmit()" id="submit-btn" class="hidden bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold px-6 py-2.5 rounded-xl transition shadow-lg">
+                        Selesaikan Kuis 🎯
+                    </button>
+                </div>
+            </div>
+
+            <!-- Question Palette Drawer Indicator -->
+            <div class="bg-slate-800 border border-slate-700 rounded-xl p-4">
+                <p class="text-xs font-semibold text-slate-400 mb-3">Navigasi Nomor Soal:</p>
+                <div id="palette-grid" class="grid grid-cols-10 sm:grid-cols-20 gap-1.5 max-h-36 overflow-y-auto p-1">
+                    <!-- Palette numbers -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Result & Evaluation View -->
+        <div id="result-view" class="hidden space-y-6">
+            <div class="bg-slate-800 border border-slate-700 rounded-2xl p-6 sm:p-10 shadow-2xl text-center space-y-6">
+                <div class="inline-block bg-amber-500/20 text-amber-400 border border-amber-500/30 px-4 py-1.5 rounded-full text-sm font-bold">
+                    Evaluasi Hasil Olimpiade APBN 2025
+                </div>
+                <h2 class="text-3xl font-extrabold text-white">Hasil Simulasi Ujian</h2>
+                
+                <div class="flex justify-center items-center py-4">
+                    <div class="bg-slate-900 border-4 border-amber-500 rounded-full w-40 h-40 flex flex-col justify-center items-center shadow-inner">
+                        <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Nilai Akhir</span>
+                        <span id="score-display" class="text-4xl font-extrabold text-amber-400">0</span>
+                        <span class="text-xs text-slate-500">skor maksimal 100</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto text-sm">
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                        <span class="block text-emerald-400 font-bold text-lg" id="stat-correct">0</span>
+                        <span class="text-slate-400">Jawaban Benar</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                        <span class="block text-rose-400 font-bold text-lg" id="stat-wrong">0</span>
+                        <span class="text-slate-400">Jawaban Salah</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                        <span class="block text-amber-400 font-bold text-lg" id="stat-unanswered">0</span>
+                        <span class="text-slate-400">Tidak Dijawab</span>
+                    </div>
+                    <div class="bg-slate-900/60 p-3 rounded-xl border border-slate-700">
+                        <span class="block text-blue-400 font-bold text-lg" id="stat-accuracy">0%</span>
+                        <span class="text-slate-400">Akurasi</span>
+                    </div>
+                </div>
+
+                <div class="pt-4 flex justify-center space-x-4">
+                    <button onclick="location.reload()" class="bg-slate-700 hover:bg-slate-600 text-white font-semibold px-6 py-3 rounded-xl transition">
+                        Ulangi Simulasi 🔄
+                    </button>
+                    <button onclick="toggleReviewMode()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-6 py-3 rounded-xl transition shadow-lg">
+                        Lihat Pembahasan Detail 📋
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Review Container -->
+            <div id="review-container" class="hidden space-y-4">
+                <h3 class="text-xl font-bold text-white px-2">Evaluasi & Pembahasan Soal Analisis APBN</h3>
+                <div id="review-list" class="space-y-4">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Confirmation Modal -->
+    <div id="confirm-modal" class="hidden fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex justify-center items-center p-4">
+        <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-md w-full p-6 text-center space-y-4 shadow-2xl">
+            <div class="text-3xl">⚠️</div>
+            <h3 class="text-lg font-bold text-white">Akhiri Sesi Simulasi?</h3>
+            <p class="text-sm text-slate-300">
+                Pastikan seluruh jawaban telah diperiksa kembali. Masih ada beberapa nomor yang belum dijawab. Yakin ingin menyelesaikan kuis sekarang?
+            </p>
+            <div class="flex space-x-3 pt-2">
+                <button onclick="closeModal()" class="flex-1 bg-slate-700 hover:bg-slate-600 text-white font-semibold py-2.5 rounded-xl transition">
+                    Lanjut Periksa
+                </button>
+                <button onclick="submitQuiz()" class="flex-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2.5 rounded-xl transition">
+                    Ya, Selesaikan
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 border-t border-slate-800 py-4 text-center text-xs text-slate-500 mt-auto">
+        Modul Cerdas Cermat APBN 2025 Edisi IV - PKN STAN • Platform Simulasi Resmi Interaktif
+    </footer>
+
+    <script>
+        // Database 100 Soal Analisis & Umum APBN (Berdasarkan Modul Edisi 2025)
+        const questionsDatabase = [
+            {
+                q: "Undang-undang paket keuangan negara yang terdiri dari UU No. 17 Tahun 2003, UU No. 1 Tahun 2004, dan UU No. 15 Tahun 2004 menggantikan peraturan kolonial Belanda yang telah berlaku lama. Apakah nama ordonansi kolonial yang mengatur perbendaharaan negara sebelum digantikan undang-undang tersebut?",
+                options: [
+                    "A. Instructie en verdere bepalingen voor de Algemeene Rekenkamer (IAR)",
+                    "B. Indische Comptabiliteitswet (ICW) Staatsblad 1925 No. 448",
+                    "C. Algemeene Mandaat Wet van Nederlandsch-Indie",
+                    "D. Comptabiliteit Wetgeving Burgerlijke Bestuur",
+                    "E. Wet op de Staatsbegroting van Nederlandsch-Indie"
+                ],
+                correct: 1,
+                explanation: "Sebelum adanya paket UU Keuangan Negara, ketentuan pengelolaan mengacu pada warisan kolonial yaitu Indische Comptabiliteitswet (ICW) Staatsblad 1925 No. 448."
+            },
+            {
+                q: "Dalam pendekatan perumusan keuangan negara, manakah pernyataan berikut yang paling tepat mendeskripsikan pendekatan dari sisi 'Proses'?",
+                options: [
+                    "A. Meliputi seluruh hak dan kewajiban negara yang dapat dinilai dengan uang termasuk kebijakan fiskal dan moneter.",
+                    "B. Meliputi seluruh objek yang dimiliki dan/atau dikuasai oleh pemerintah pusat, daerah, maupun perusahaan negara.",
+                    "C. Mencakup seluruh rangkaian kegiatan yang berkaitan dengan pengelolaan objek mulai dari perumusan kebijakan hingga pertanggungjawaban.",
+                    "D. Meliputi seluruh kebijakan, kegiatan, dan hubungan hukum yang berkaitan dengan pemilikan objek dalam penyelenggaraan pemerintahan.",
+                    "E. Berfokus khusus pada pengelolaan kekayaan negara yang dipisahkan pada BUMN dan BUMD."
+                ],
+                correct: 2,
+                explanation: "Dari sisi proses, keuangan negara mencakup seluruh rangkaian kegiatan yang berkaitan dengan pengelolaan objek mulai dari perumusan kebijakan dan pengambilan keputusan hingga pertanggungjawaban."
+            },
+            {
+                q: "Asas pengelolaan keuangan negara yang mewajibkan transaksi keuangan dimuat atau dirinci secara jelas ke dalam mata anggaran (akun) sesuai peruntukannya disebut sebagai...",
+                options: [
+                    "A. Asas Universalitas",
+                    "B. Asas Kesatuan",
+                    "C. Asas Spesialitas",
+                    "D. Asas Akuntabilitas Berorientasi Hasil",
+                    "E. Asas Proporsionalitas"
+                ],
+                correct: 2,
+                explanation: "Asas spesialitas mewajibkan transaksi keuangan dimuat/dirinci secara jelas ke dalam mata anggaran (akun) sesuai peruntukannya."
+            },
+            {
+                q: "Berdasarkan pendelegasian kewenangan pengelolaan keuangan negara, Presiden menyerahkan sebagian kekuasaan kepada Menteri Keuangan selaku Pengelola Fiskal dan Wakil Pemerintah dalam kepemilikan kekayaan negara yang dipisahkan. Menteri Keuangan pada hakikatnya bertindak sebagai...",
+                options: [
+                    "A. Chief Operational Officer (COO)",
+                    "B. Chief Financial Officer (CFO)",
+                    "C. Chief Executive Officer (CEO)",
+                    "D. Chief Information Officer (CIO)",
+                    "E. Chief Risk Officer (CRO)"
+                ],
+                correct: 1,
+                explanation: "Menteri Keuangan sebagai pembantu Presiden di bidang keuangan pada hakikatnya adalah Chief Financial Officer (CFO), sedangkan menteri/pimpinan lembaga adalah Chief Operational Officer (COO)."
+            },
+            {
+                q: "Kementerian Keuangan memiliki total unit Eselon I saat ini. Berdasarkan struktur organisasi Kementerian Keuangan dalam Modul 2025, berapakah jumlah unit eselon I yang aktif?",
+                options: [
+                    "A. 11 unit eselon I",
+                    "B. 12 unit eselon I",
+                    "C. 13 unit eselon I",
+                    "D. 14 unit eselon I",
+                    "E. 15 unit eselon I"
+                ],
+                correct: 2,
+                explanation: "Saat ini Kementerian Keuangan mempunyai 13 unit eselon I, termasuk di dalamnya Direktorat Jenderal Strategi Ekonomi dan Fiskal serta DJSPSK."
+            },
+            {
+                q: "Tanggal berapakah Oeang Republik Indonesia (ORI) diterbitkan untuk pertama kalinya menggantikan mata uang Javasche Bank, mata uang Jepang, dan NICA, yang kini diperingati sebagai Hari Keuangan Nasional?",
+                options: [
+                    "A. 17 Agustus 1945",
+                    "B. 30 Oktober 1946",
+                    "C. 28 Oktober 1928",
+                    "D. 10 November 1945",
+                    "E. 1 April 2001"
+                ],
+                correct: 1,
+                explanation: "Pada tanggal 30 Oktober 1946, diterbitkan Oeang Republik Indonesia (ORI) yang kemudian diperingati sebagai Hari Keuangan Nasional."
+            },
+            {
+                q: "APBN mempunyai fungsi di mana APBN menjadi dasar untuk melaksanakan pendapatan dan belanja pada tahun yang bersangkutan. Fungsi tersebut dinamakan...",
+                options: [
+                    "A. Fungsi Perencanaan",
+                    "B. Fungsi Pengawasan",
+                    "C. Fungsi Otorisasi",
+                    "D. Fungsi Alokasi",
+                    "E. Fungsi Stabilisasi"
+                ],
+                correct: 2,
+                explanation: "Fungsi otorisasi berarti APBN menjadi dasar untuk melaksanakan pendapatan dan belanja pada tahun yang bersangkutan."
+            },
+            {
+                q: "Kebijakan fiskal yang bersifat kontra-siklis (countercyclical) mengarahkan pemerintah untuk menjalankan kebijakan surplus anggaran pada saat...",
+                options: [
+                    "A. Perekonomian mengalami kelesuan atau resesi",
+                    "B. Perekonomian sedang dalam masa booming (ekspansi tinggi)",
+                    "C. Tingkat pengangguran struktural melonjak tajam",
+                    "D. Terjadi bencana alam berskala nasional",
+                    "E. Suku bunga acuan bank sentral berada di titik nol"
+                ],
+                correct: 1,
+                explanation: "Pada saat ekonomi sedang booming, pemerintah melakukan kontraksi fiskal dengan menjalankan kebijakan surplus anggaran untuk meredam overheating."
+            },
+            {
+                q: "Dalam struktur APBN, Keseimbangan Primer (Primary Balance) didefinisikan sebagai...",
+                options: [
+                    "A. Total pendapatan negara dikurangi total belanja negara secara keseluruhan.",
+                    "B. Total pendapatan negara dikurangi belanja selain pembayaran bunga utang.",
+                    "C. Penerimaan perpajakan dikurangi belanja pegawai dan belanja barang.",
+                    "D. Surplus anggaran dikurangi total pembiayaan neto.",
+                    "E. Pendapatan dalam negeri dikurangi transfer ke daerah."
+                ],
+                correct: 1,
+                explanation: "Keseimbangan primer adalah pendapatan negara dikurangi belanja selain pembayaran bunga utang."
+            },
+            {
+                q: "Format I-account yang diadopsi dari Government Finance Statistics (GFS) – IMF mulai digunakan di Indonesia pada tahun...",
+                options: [
+                    "A. 1998",
+                    "B. 2000",
+                    "C. 2003",
+                    "D. 2005",
+                    "E. 2017"
+                ],
+                correct: 1,
+                explanation: "Pada tahun 2000, Indonesia mulai menggunakan format I-account untuk menggantikan format lama T-account."
+            },
+            {
+                q: "Berdasarkan ketentuan fiscal rules dalam UU No. 17 Tahun 2003, berapakah batas maksimal besaran defisit APBN terhadap Produk Domestik Bruto (PDB) dalam kondisi normal?",
+                options: [
+                    "A. 1,0% dari PDB",
+                    "B. 2,0% dari PDB",
+                    "C. 3,0% dari PDB",
+                    "D. 5,0% dari PDB",
+                    "E. 60% dari PDB"
+                ],
+                correct: 2,
+                explanation: "Besaran defisit APBN maksimal adalah 3% terhadap PDB, dan posisi keseluruhan utang maksimal 60% dari PDB."
+            },
+            {
+                q: "Bagian Anggaran Bendahara Umum Negara (BA-BUN) dikelola langsung oleh pejabat berikut, yaitu...",
+                options: [
+                    "A. Menteri/Pimpinan Lembaga",
+                    "B. Menteri Keuangan selaku Pengelola Fiskal",
+                    "C. Gubernur/Bupati/Walikota",
+                    "D. Kepala Bappenas",
+                    "E. Ketua Badan Pemeriksa Keuangan"
+                ],
+                correct: 1,
+                explanation: "BA-BUN (Non-K/L) adalah kelompok anggaran yang dikelola oleh Menteri Keuangan selaku Pengelola Fiskal."
+            },
+            {
+                q: "Klasifikasi belanja negara menurut fungsi di Indonesia mengacu pada standar internasional yang disusun oleh United Nations Development Programme (UNDP) dan diadopsi GFS manual 2001, yaitu...",
+                options: [
+                    "A. COFOG (Classification of the Functions of Government)",
+                    "B. COICOP (Classification of Individual Consumption According to Purpose)",
+                    "C. COFOG Plus International Standard",
+                    "D. Government Finance Functional Standard (GFFS)",
+                    "E. UN Public Expenditure Classification (UNPEC)"
+                ],
+                correct: 0,
+                explanation: "Klasifikasi fungsi mengacu pada Classification of the Functions of Government (COFOG) dengan sedikit modifikasi pemisahan fungsi agama."
+            },
+            {
+                q: "Dalam Bagan Akun Standar (Chart of Account), digit pertama dengan kode angka '5' menunjukkan kelompok akun...",
+                options: [
+                    "A. Aset",
+                    "B. Kewajiban",
+                    "C. Pendapatan",
+                    "D. Belanja",
+                    "E. Transfer"
+                ],
+                correct: 3,
+                explanation: "Digit pertama kode akun = 5 menunjukkan akun Belanja."
+            },
+            {
+                q: "Mandatory spending untuk anggaran pendidikan diatur dalam UUD 1945 Pasal 31 Ayat (4) sebesar minimal...",
+                options: [
+                    "A. 5% dari APBN",
+                    "B. 10% dari APBN",
+                    "C. 15% dari APBN",
+                    "D. 20% dari APBN",
+                    "E. 25% dari APBN"
+                ],
+                correct: 3,
+                explanation: "Anggaran pendidikan dialokasikan minimal 20% dari APBN sebagai mandat UUD 1945."
+            },
+            {
+                q: "Alat kelengkapan DPR yang bersifat tetap dan bertugas membahas Pokok-pokok Kebijakan Fiskal (PPKF), pendapatan, RUU APBN, serta melakukan sinkronisasi hasil pembahasan komisi adalah...",
+                options: [
+                    "A. Badan Kehormatan DPR",
+                    "B. Badan Legislasi (Baleg)",
+                    "C. Badan Anggaran (Banggar)",
+                    "D. Panitia Kerja Khusus APBN",
+                    "E. Komisi XI DPR"
+                ],
+                correct: 2,
+                explanation: "Badan Anggaran (Banggar) adalah alat kelengkapan DPR yang bersifat tetap untuk membahas pokok kebijakan fiskal dan RUU APBN."
+            },
+            {
+                q: "Siklus APBN di Indonesia secara rinci meliputi 7 tahapan utama. Tahap manakah yang termasuk dalam kategori budget authorization?",
+                options: [
+                    "A. Perencanaan dan Penyusunan",
+                    "B. Pembahasan dan Penetapan",
+                    "C. Pelaksanaan Anggaran",
+                    "D. Pencatatan dan Pelaporan",
+                    "E. Pemeriksaan dan Pertanggungjawaban"
+                ],
+                correct: 1,
+                explanation: "Budget authorization dirinci menjadi tahap Pembahasan (di DPR) dan tahap Penetapan."
+            },
+            {
+                q: "Dalam Sistem Perencanaan Pembangunan Nasional (SPPN) berdasarkan UU No. 25 Tahun 2004, dokumen perencanaan jangka menengah nasional berdurasi waktu selama...",
+                options: [
+                    "A. 1 tahun",
+                    "B. 5 tahun",
+                    "C. 10 tahun",
+                    "D. 20 tahun",
+                    "E. 25 tahun"
+                ],
+                correct: 1,
+                explanation: "RPJM adalah dokumen rencana pembangunan nasional untuk periode 5 tahun."
+            },
+            {
+                q: "Undang-Undang Nomor 59 Tahun 2024 mengatur mengenai dokumen perencanaan jangka panjang nasional untuk periode...",
+                options: [
+                    "A. 2005 - 2025",
+                    "B. 2025 - 2045",
+                    "C. 2020 - 2045",
+                    "D. 2030 - 2050",
+                    "E. 2025 - 2050"
+                ],
+                correct: 1,
+                explanation: "UU No. 59 Tahun 2024 menetapkan Rencana Pembangunan Jangka Panjang Nasional (RPJPN) Tahun 2025 - 2045."
+            },
+            {
+                q: "Visi Presiden periode 2025-2029 dijabarkan dalam 8 misi pembangunan yang dikenal dengan istilah...",
+                options: [
+                    "A. Nawacita",
+                    "B. Asta Cita",
+                    "C. Trisakti",
+                    "D. Pancasila Pembangunan",
+                    "E. Dasasila Pembangunan"
+                ],
+                correct: 1,
+                explanation: "Visi Presiden 2025-2029 dicapai melalui 8 Misi Presiden yang dituangkan dalam Asta Cita."
+            },
+            {
+                q: "Pendekatan penganggaran yang menetapkan alokasi anggaran didasarkan pada prestasi kerja (output/outcome) dan diintegrasikan dengan perspektif waktu lebih dari setahun melalui prakiraan maju disebut...",
+                options: [
+                    "A. Line Item Budgeting dan Traditional Budgeting",
+                    "B. Penganggaran Berbasis Kinerja (PBK) dan Kerangka Pengeluaran Jangka Menengah (KPJM)",
+                    "C. Incremental Budgeting dan Dual Budgeting",
+                    "D. Performance Line Budgeting",
+                    "E. Zero Based Budgeting"
+                ],
+                correct: 1,
+                explanation: "PBK dikombinasikan dengan Kerangka Pengeluaran Jangka Menengah (KPJM/MTEF) untuk keberlanjutan proses penganggaran."
+            },
+            {
+                q: "Prinsip penganggaran yang menyatakan bahwa alokasi anggaran (money) pada unit organisasi didasarkan pada tugas-fungsi (function) yang dilekatkan pada struktur organisasi disebut...",
+                options: [
+                    "A. Money Follow Program",
+                    "B. Money Follow Function",
+                    "C. Money Follow Output",
+                    "D. Performance Follow Budget",
+                    "E. Budget Follow Function"
+                ],
+                correct: 1,
+                explanation: "Money follow function (PP 90/2010) adalah alokasi anggaran didasarkan pada tugas-fungsi yang dilekatkan pada struktur organisasi."
+            },
+            {
+                q: "Dokumen pelaksanaan anggaran yang diterbitkan oleh Kementerian Keuangan untuk masing-masing satuan kerja sebagai dasar pelaksanaan kegiatan dan pencairan dana disebut...",
+                options: [
+                    "A. RKA-K/L",
+                    "B. KEM-PPKF",
+                    "C. DIPA (Daftar Isian Pelaksanaan Anggaran)",
+                    "D. Pagu Anggaran",
+                    "E. Kerangka Acuan Kerja (KAK)"
+                ],
+                correct: 2,
+                explanation: "DIPA adalah dokumen pelaksanaan anggaran yang digunakan sebagai acuan satker dalam melaksanakan kegiatan."
+            },
+            {
+                q: "Ancar-ancar pagu anggaran yang diberikan kepada Kementerian/Lembaga sebagai pedoman dalam penyusunan Rancangan Awal RKP dan Renja-K/L yang dikeluarkan pada bulan April disebut...",
+                options: [
+                    "A. Pagu Anggaran",
+                    "B. Alokasi Anggaran",
+                    "C. Pagu Indikatif",
+                    "D. Pagu Definitif",
+                    "E. Pagu Resiko"
+                ],
+                correct: 2,
+                explanation: "Pagu Indikatif adalah ancar-ancar pagu yang diberikan pada bulan April untuk pedoman penyusunan Renja-K/L."
+            },
+            {
+                q: "Forum pertemuan tiga pihak yang melibatkan Kementerian/Lembaga, Bappenas, dan Kementerian Keuangan dalam rangka penelaahan Rancangan Renja-K/L disebut...",
+                options: [
+                    "A. Trilateral Meeting",
+                    "B. Sidang Kabinet Paripurna",
+                    "C. Musrenbangnas",
+                    "D. Rapat Koordinasi Pembangunan Pusat",
+                    "E. Pembicaraan Pendahuluan"
+                ],
+                correct: 0,
+                explanation: "Trilateral Meeting adalah pertemuan tiga pihak antara K/L, Bappenas, dan Kemenkeu untuk menelaah Rancangan Renja-K/L."
+            },
+            {
+                q: "Dalam analisis sensitivitas APBN, apa dampak kenaikan pertumbuhan ekonomi sebesar 0,1% terhadap posisi Surplus/Defisit Anggaran (dengan asumsi ceteris paribus)?",
+                options: [
+                    "A. Defisit bertambah besar",
+                    "B. Surplus bertambah / Defisit berkurang (membaik sebesar Rp2 triliun)",
+                    "C. Tidak berdampak sama sekali",
+                    "D. Menyebabkan pembiayaan utang luar negeri meningkat",
+                    "E. Pendapatan negara turun secara drastis"
+                ],
+                correct: 1,
+                explanation: "Kenaikan pertumbuhan ekonomi 0,1% meningkatkan pendapatan Rp2,1T dan belanja Rp0,1T, sehingga surplus/defisit membaik (bertambah surplus Rp2 triliun)."
+            },
+            {
+                q: "Penyusunan anggaran secara bottom up pada belanja K/L didasarkan pada pagu angka dasar yang menampung kebutuhan rutin operasional dan kewajiban kurang bayar. Apakah istilah resmi untuk angka dasar tersebut dalam penganggaran?",
+                options: [
+                    "A. Baseline",
+                    "B. Frontline",
+                    "C. Headline",
+                    "D. Targetline",
+                    "E. Deadliner"
+                ],
+                correct: 0,
+                explanation: "Baseline (angka dasar) adalah alokasi anggaran belanja K/L yang menampung kebutuhan rutin dan kewajiban sebelumnya."
+            },
+            {
+                q: "Dokumen yang memberikan gambaran umum dan penjelasan mengenai output yang akan dicapai sesuai tugas dan fungsi unit eselon I yang memuat latar belakang, penerima manfaat, dan biaya disebut...",
+                options: [
+                    "A. Rencana Anggaran Biaya (RAB)",
+                    "B. Kerangka Acuan Kerja (KAK / TOR)",
+                    "C. Daftar Isian Pelaksanaan Anggaran (DIPA)",
+                    "D. Catatan Hasil Penelaahan (CHP)",
+                    "E. Rencana Strategis (Renstra)"
+                ],
+                correct: 1,
+                explanation: "Kerangka Acuan Kerja (KAK/TOR) memberikan gambaran umum dan penjelasan mengenai output yang akan dicapai."
+            },
+            {
+                q: "Proses menggulirkan angka prakiraan maju (forward estimate) menjadi angka yang dijadikan sebagai acuan baseline pada tahun perencanaan berikutnya dikenal sebagai...",
+                options: [
+                    "A. Rolling Budget",
+                    "B. Shifting Budget",
+                    "C. Flexible Budget",
+                    "D. Incremental Budget",
+                    "E. Zero Budget"
+                ],
+                correct: 0,
+                explanation: "Rolling budget adalah proses menggulirkan angka prakiraan maju menjadi acuan angka dasar (baseline)."
+            },
+            {
+                q: "Siapakah pejabat di tingkat Kementerian/Lembaga yang diberi kewenangan oleh PA/KPA untuk mengambil keputusan dan/atau melakukan tindakan yang mengakibatkan pengeluaran anggaran belanja negara?",
+                options: [
+                    "A. Bendahara Pengeluaran",
+                    "B. Pejabat Penandatangan SPM (PPSPM)",
+                    "C. Pejabat Pembuat Komitmen (PPK)",
+                    "D. Kuasa BUN",
+                    "E. Kepala Biro Keuangan K/L"
+                ],
+                correct: 2,
+                explanation: "Pejabat Pembuat Komitmen (PPK) adalah pejabat yang diberi kewenangan mengambil keputusan/tindakan yang mengakibatkan pengeluaran anggaran."
+            },
+            {
+                q: "Pengujian belanja yang dilakukan untuk memastikan bahwa tagihan atas beban APBN sesuai dengan ketentuan perundang-undangan dan dananya tersedia dalam DIPA disebut pengujian...",
+                options: [
+                    "A. Doelmatigheid",
+                    "B. Rechtmatigheid",
+                    "C. Wetmatigheid",
+                    "D. Akuntabilitas",
+                    "E. Transparansi"
+                ],
+                correct: 2,
+                explanation: "Wetmatigheid adalah pengujian kesesuaian tagihan dengan peraturan perundang-undangan dan ketersediaan dana dalam DIPA."
+            },
+            {
+                q: "Pengujian belanja yang memastikan bahwa pihak yang mengajukan tagihan kepada negara adalah sah secara formal disebut pengujian...",
+                options: [
+                    "A. Doelmatigheid",
+                    "B. Rechtmatigheid",
+                    "C. Wetmatigheid",
+                    "D. Substansial",
+                    "E. Formalitas"
+                ],
+                correct: 1,
+                explanation: "Rechtmatigheid adalah pengujian untuk memastikan pihak penagih sah secara formal berdasarkan dokumen hukum/kontrak."
+            },
+            {
+                q: "Dalam tata cara pembayaran belanja negara, pembayaran yang dilakukan langsung kepada bendahara pengeluaran atau kepada pihak ketiga (rekanan) atas dasar perikatan kontrak disebut...",
+                options: [
+                    "A. Pembayaran UP (Uang Persediaan)",
+                    "B. Pembayaran TUP (Tambahan Uang Persediaan)",
+                    "C. Pembayaran LS (Langsung)",
+                    "D. Pembayaran GUP (Ganti Uang Persediaan)",
+                    "E. Pembayaran Nihil"
+                ],
+                correct: 2,
+                explanation: "Pembayaran Langsung (LS) adalah pembayaran langsung kepada rekanan atau bendahara atas dasar perjanjian/kontrak."
+            },
+            {
+                q: "Penerimaan negara yang dikenakan terhadap barang-barang tertentu yang konsumsinya perlu dikendalikan dan diawasi karena menimbulkan efek negatif bagi masyarakat disebut...",
+                options: [
+                    "A. Pajak Pertambahan Nilai",
+                    "B. Bea Masuk",
+                    "C. Cukai",
+                    "D. Pajak Penghasilan",
+                    "E. Opsen Pajak"
+                ],
+                correct: 2,
+                explanation: "Cukai adalah pungutan negara terhadap barang kena cukai yang konsumsinya perlu dikendalikan (misal: hasil tembakau, etil alkohol)."
+            },
+            {
+                q: "Berdasarkan UU No. 1 Tahun 2004, manakah yang merupakan prinsip pelaksanaan anggaran pendapatan yang benar?",
+                options: [
+                    "A. Penerimaan kementerian/lembaga boleh digunakan langsung untuk membiayai pengeluaran operasional mendesak.",
+                    "B. Penerimaan harus disetor seluruhnya ke kas negara/daerah pada waktunya.",
+                    "C. Komisi atau potongan dari penjualan barang/jasa negara menjadi hak pribadi pejabat pengadaan.",
+                    "D. Penerimaan negara bukan pajak dapat dikelola di luar rekening kas umum negara tanpa batasan.",
+                    "E. Satuan kerja diperbolehkan menahan sebagian penerimaan untuk dana talangan."
+                ],
+                correct: 1,
+                explanation: "Prinsip pelaksanaan pendapatan mewajibkan penerimaan disetor seluruhnya ke kas negara/daerah pada waktunya."
+            },
+            {
+                q: "Kegiatan membandingkan realisasi input, output, dan outcome terhadap rencana dan standar yang dilaksanakan setelah program/kegiatan berakhir disebut...",
+                options: [
+                    "A. Monitoring",
+                    "B. Evaluasi",
+                    "C. Controlling",
+                    "D. Auditing",
+                    "E. Reviu"
+                ],
+                correct: 1,
+                explanation: "Evaluasi adalah kegiatan membandingkan realisasi input, output, dan outcome terhadap rencana dan standar setelah kegiatan berakhir."
+            },
+            {
+                q: "Indikator Kinerja Pelaksanaan Anggaran (IKPA) untuk mengukur kualitas kinerja pelaksanaan anggaran belanja K/L mencakup 7 indikator bernilai positif dan 1 indikator sebagai faktor pengurang. Manakah yang bertindak sebagai faktor pengurang nilai IKPA?",
+                options: [
+                    "A. Penyerapan Anggaran",
+                    "B. Capaian Output",
+                    "C. Deviasi Halaman III DIPA",
+                    "D. Dispensasi SPM",
+                    "E. Pengelolaan UP/TUP"
+                ],
+                correct: 3,
+                explanation: "Dispensasi SPM adalah indikator yang bertindak sebagai faktor pengurang dalam penilaian IKPA."
+            },
+            {
+                q: "Reviu atas Anggaran Belanja Pemerintah Pusat (ABPP) yang menekankan pada konsep value for money (ekonomi, efisiensi, dan efektivitas) dikenal dengan istilah...",
+                options: [
+                    "A. Audit Kinerja",
+                    "B. Spending Review",
+                    "C. Budget Tagging",
+                    "D. Fiscal Stress Test",
+                    "E. Macro Review"
+                ],
+                correct: 1,
+                explanation: "Spending review adalah reviu atas belanja pemerintah pusat yang menekankan pada konsep value for money."
+            },
+            {
+                q: "Metode pengukuran efisiensi belanja instansi pemerintah dengan membandingkan kinerja unit berkinerja terbaik menggunakan prinsip Data Envelopment Analysis (DEA) disebut...",
+                options: [
+                    "A. Benchmarking",
+                    "B. Deviasi Kebutuhan",
+                    "C. Review Alokasi",
+                    "D. Einmalig Analysis",
+                    "E. Clustering Macro"
+                ],
+                correct: 0,
+                explanation: "Benchmarking dengan DEA menetapkan unit berkinerja terbaik sebagai frontier untuk mengukur inefisiensi unit lain."
+            },
+            {
+                q: "Program, kegiatan, atau output belanja yang berdasarkan sifat dan tujuannya hanya perlu dilakukan satu kali dan tidak perlu diulang pada tahun berikutnya disebut pengeluaran...",
+                options: [
+                    "A. Recurrent spending",
+                    "B. Einmalig (nonrecurrent spending)",
+                    "C. Discretionary spending",
+                    "D. Mandatory spending",
+                    "E. Capital spending"
+                ],
+                correct: 1,
+                explanation: "Einmalig adalah pengeluaran/kegiatan yang sifatnya hanya sekali terjadi (nonrecurrent spending)."
+            },
+            {
+                q: "Dalam laporan keuangan pemerintah pusat, laporan manakah yang menggambarkan perbandingan antara anggaran pendapatan, belanja, dan pembiayaan dengan realisasinya dalam satu tahun anggaran berbasis kas?",
+                options: [
+                    "A. Laporan Operasional (LO)",
+                    "B. Laporan Realisasi Anggaran (LRA)",
+                    "C. Neraca",
+                    "D. Laporan Perubahan Ekuitas",
+                    "E. Laporan Arus Kas"
+                ],
+                correct: 1,
+                explanation: "Laporan Realisasi Anggaran (LRA) menggambarkan perbandingan anggaran dan realisasi berbasis kas."
+            },
+            {
+                q: "Berapa lamakah batas waktu penyampaian Laporan Keuangan Pemerintah Pusat (LKPP unaudited) oleh Menteri Keuangan kepada Badan Pemeriksa Keuangan (BPK) setelah tahun anggaran berakhir?",
+                options: [
+                    "A. 1 bulan",
+                    "B. 2 bulan",
+                    "C. 3 bulan",
+                    "D. 6 bulan",
+                    "E. 12 bulan"
+                ],
+                correct: 2,
+                explanation: "LKPP unaudited diserahkan kepada BPK selambat-lambatnya 3 bulan setelah tahun anggaran berakhir untuk diaudit."
+            },
+            {
+                q: "Presiden menyampaikan Rancangan Undang-Undang tentang Pertanggungjawaban Pelaksanaan APBN (berisi LKPP audited) kepada DPR selambat-lambatnya...",
+                options: [
+                    "A. 1 bulan setelah tahun anggaran berakhir",
+                    "B. 3 bulan setelah tahun anggaran berakhir",
+                    "C. 6 bulan setelah tahun anggaran berakhir",
+                    "D. 9 bulan setelah tahun anggaran berakhir",
+                    "E. 12 bulan setelah tahun anggaran berakhir"
+                ],
+                correct: 2,
+                explanation: "RUU Pertanggungjawaban Pelaksanaan APBN disampaikan kepada DPR selambat-lambatnya 6 bulan setelah tahun anggaran berakhir."
+            },
+            {
+                q: "Opini manakah yang merupakan predikat terbaik yang diberikan oleh BPK atas hasil pemeriksaan laporan keuangan pemerintah?",
+                options: [
+                    "A. Wajar Dengan Pengecualian (WDP)",
+                    "B. Wajar Tanpa Pengecualian (WTP)",
+                    "C. Tidak Wajar (TW)",
+                    "D. Tidak Memberi Pendapat (TMP / Disclaimer)",
+                    "E. Opini Bersyarat Optimal"
+                ],
+                correct: 1,
+                explanation: "Wajar Tanpa Pengecualian (WTP) adalah opini pemeriksaan BPK terbaik atas kewajaran laporan keuangan."
+            },
+            {
+                q: "Definisi Barang Milik Negara (BMN) menurut Undang-Undang Nomor 1 Tahun 2004 adalah...",
+                options: [
+                    "A. Semua barang yang dibeli atau diperoleh atas beban APBD atau perolehan lain yang sah.",
+                    "B. Semua barang yang dibeli atau diperoleh atas beban APBN atau berasal dari perolehan lainnya yang sah.",
+                    "C. Hanya barang tetap berupa tanah dan bangunan milik instansi vertikal pusat.",
+                    "D. Seluruh kekayaan negara yang dipisahkan pada BUMN persero.",
+                    "E. Barang sumbangan pihak swasta yang dikuasai kementerian selama masa proyek berjalan."
+                ],
+                correct: 1,
+                explanation: "UU No. 1 Tahun 2004 mendefinisikan BMN sebagai semua barang yang dibeli atau diperoleh atas beban APBN atau perolehan lainnya yang sah."
+            },
+            {
+                q: "Dalam struktur pengelola Barang Milik Negara pada pemerintah pusat, siapakah yang bertindak selaku Pengelola Barang?",
+                options: [
+                    "A. Menteri/Pimpinan Lembaga",
+                    "B. Menteri Keuangan selaku Bendahara Umum Negara",
+                    "C. Kepala Kantor Satuan Kerja",
+                    "D. Kepala Biro Perlengkapan",
+                    "E. Badan Pemeriksa Keuangan"
+                ],
+                correct: 1,
+                explanation: "Menteri Keuangan selaku Bendahara Umum Negara adalah pengelola barang (pengelola BMN)."
+            },
+            {
+                q: "Bentuk pemanfaatan BMN berupa penyerahan penggunaan barang antara pemerintah pusat dan pemerintah daerah dalam jangka waktu tertentu tanpa menerima imbalan disebut...",
+                options: [
+                    "A. Sewa",
+                    "B. Pinjam Pakai",
+                    "C. Kerja Sama Pemanfaatan (KSP)",
+                    "D. Bangun Guna Serah (BGS)",
+                    "E. Penyertaan Modal"
+                ],
+                correct: 1,
+                explanation: "Pinjam pakai adalah penyerahan penggunaan barang antara pemerintah pusat dan pemda tanpa imbalan dalam jangka waktu tertentu."
+            },
+            {
+                q: "Tindakan menghapus BMN dari daftar barang dengan menerbitkan keputusan pejabat berwenang untuk membebaskan pengelola dari tanggung jawab administratif dan fisik disebut...",
+                options: [
+                    "A. Pemusnahan BMN",
+                    "B. Penghapusan BMN",
+                    "C. Penatausahaan BMN",
+                    "D. Penilaian BMN",
+                    "E. Pemindahtanganan BMN"
+                ],
+                correct: 1,
+                explanation: "Penghapusan BMN adalah tindakan menghapus BMN dari daftar barang dengan keputusan pejabat berwenang."
+            },
+            {
+                q: "Badan Layanan Umum (BLU) di lingkungan instansi pemerintah dikelola berdasarkan prinsip bahwa BLU menyelenggarakan kegiatan tanpa mengutamakan...",
+                options: [
+                    "A. Pelayanan publik",
+                    "B. Pencarian keuntungan (profit)",
+                    "C. Efisiensi operasional",
+                    "D. Produktivitas kerja",
+                    "E. Fleksibilitas keuangan"
+                ],
+                correct: 1,
+                explanation: "BLU menyelenggarakan kegiatannya tanpa mengutamakan pencarian keuntungan (not for profit / nonprofit)."
+            },
+            {
+                q: "Apabila satker instansi pemerintah ingin berubah status menjadi satker dengan Pengelolaan Keuangan BLU (PK-BLU), syarat apa saja yang harus dipenuhi?",
+                options: [
+                    "A. Hanya syarat substantif saja",
+                    "B. Syarat administratif dan teknis tanpa substantif",
+                    "C. Syarat Substantif, Syarat Teknis, dan Syarat Administratif",
+                    "D. Syarat keuangan dan syarat politis DPR",
+                    "E. Cukup persetujuan dari Menteri Pendayagunaan Aparatur Negara"
+                ],
+                correct: 2,
+                explanation: "Syarat pembentukan/penetapan BLU meliputi syarat substantif, syarat teknis, dan syarat administratif."
+            },
+            {
+                q: "Salah satu fleksibilitas yang dimiliki oleh Badan Layanan Umum (BLU) dibandingkan satker biasa adalah...",
+                options: [
+                    "A. Seluruh pendapatan PNBP wajib disetor penuh ke kas negara tanpa boleh digunakan.",
+                    "B. Dapat menggunakan pendapatannya (PNBP BLU) secara langsung untuk membiayai belanjanya.",
+                    "C. Dibebaskan sepenuhnya dari segala bentuk peraturan perundang-undangan pajak pusat.",
+                    "D. Berstatus sebagai kekayaan negara yang dipisahkan penuh seperti BUMN Persero.",
+                    "E. Memiliki wewenang menerbitkan mata uang sendiri."
+                ],
+                correct: 1,
+                explanation: "Fleksibilitas BLU mencakup penggunaan pendapatannya secara langsung untuk membiayai belanja operasional layanan."
+            },
+            {
+                q: "Undang-Undang yang menjadi dasar hukum terbaru dalam mengatur Hubungan Keuangan antara Pemerintah Pusat dan Pemerintahan Daerah (HKPD) untuk menggantikan UU No. 33 Tahun 2004 adalah...",
+                options: [
+                    "A. Undang-Undang Nomor 23 Tahun 2014",
+                    "B. Undang-Undang Nomor 1 Tahun 2022",
+                    "C. Undang-Undang Nomor 28 Tahun 2009",
+                    "D. Undang-Undang Nomor 32 Tahun 2004",
+                    "E. Undang-Undang Nomor 17 Tahun 2003"
+                ],
+                correct: 1,
+                explanation: "UU No. 1 Tahun 2022 tentang Hubungan Keuangan Antara Pemerintah Pusat dan Pemerintahan Daerah (HKPD) menggantikan UU 33/2004."
+            },
+            {
+                q: "Pungutan daerah sebagai pembayaran atas jasa atau pemberian izin tertentu yang khusus disediakan oleh pemerintah daerah untuk kepentingan orang pribadi atau badan disebut...",
+                options: [
+                    "A. Pajak Daerah",
+                    "B. Retribusi Daerah",
+                    "C. Bea Masuk Daerah",
+                    "D. Cukai Daerah",
+                    "E. Sumbangan Wajib Daerah"
+                ],
+                correct: 1,
+                explanation: "Retribusi daerah adalah pungutan pembayaran atas jasa atau pemberian izin tertentu oleh pemerintah daerah."
+            },
+            {
+                q: "Dana yang bersumber dari APBN yang dialokasikan dan disalurkan kepada pemerintah daerah guna mendanai penyelenggaraan urusan pemerintahan yang menjadi kewenangan daerah disebut...",
+                options: [
+                    "A. Belanja Pemerintah Pusat",
+                    "B. Transfer ke Daerah (TKD)",
+                    "C. Pembiayaan Utang Daerah",
+                    "D. Pendapatan Asli Daerah (PAD)",
+                    "E. Dana Darurat Pusat"
+                ],
+                correct: 1,
+                explanation: "Transfer ke Daerah (TKD) adalah dana dari APBN yang disalurkan ke daerah untuk mendanai desentralisasi fiskal."
+            },
+            {
+                q: "Dalam struktur Transfer ke Daerah, komponen dana transfer yang dialokasikan dengan tujuan mengurangi ketimpangan kemampuan keuangan dan layanan publik antardaerah adalah...",
+                options: [
+                    "A. Dana Bagi Hasil (DBH)",
+                    "B. Dana Alokasi Umum (DAU)",
+                    "C. Dana Alokasi Khusus (DAK) Fisik",
+                    "D. Dana Desa",
+                    "E. Insentif Fiskal"
+                ],
+                correct: 1,
+                explanation: "Dana Alokasi Umum (DAU) dialokasikan untuk mengurangi ketimpangan kemampuan keuangan antardaerah (equalization)."
+            },
+            {
+                q: "Batas maksimal kumulatif defisit APBD dan APBN secara bersama-sama terhadap Produk Domestik Bruto (PDB) diatur dalam UU HKPD dan UU Keuangan Negara agar tidak melebihi...",
+                options: [
+                    "A. 1% dari PDB",
+                    "B. 2% dari PDB",
+                    "C. 3% dari PDB",
+                    "D. 5% dari PDB",
+                    "E. 10% dari PDB"
+                ],
+                correct: 2,
+                explanation: "Jumlah kumulatif defisit APBD dan defisit APBN tidak melebihi 3% dari perkiraan PDB tahun anggaran berkenaan."
+            },
+            {
+                q: "Instrumen internasional untuk mengukur kinerja pengelolaan APBN dari sisi transparansi anggaran, partisipasi publik, dan pengawasan anggaran dikenal dengan nama...",
+                options: [
+                    "A. Open Budget Survey (OBS) / Open Budget Index",
+                    "B. Global Transparency Budget Index",
+                    "C. International Fiscal Assessment",
+                    "D. World Bank Public Expenditure Review",
+                    "E. IMF Fiscal Monitor Index"
+                ],
+                correct: 0,
+                explanation: "Open Budget Survey mengukur transparansi, partisipasi publik, dan pengawasan anggaran."
+            },
+            {
+                q: "Aplikasi online yang disediakan oleh Kementerian Keuangan bagi masyarakat atau pegawai yang ingin menyampaikan informasi atau pengaduan terkait perbuatan berindikasi pelanggaran di lingkungan Kemenkeu adalah...",
+                options: [
+                    "A. SPAN Online",
+                    "B. SAKTI Kemenkeu",
+                    "C. Whistleblowing System (WiSe)",
+                    "D. KRISNA Perencanaan",
+                    "E. DigiPaySatu"
+                ],
+                correct: 2,
+                explanation: "Whistleblowing System (WiSe) adalah kanal pengaduan indikasi pelanggaran di lingkungan Kementerian Keuangan."
+            },
+            {
+                q: "Publikasi resmi bulanan Kementerian Keuangan yang berisi laporan realisasi dan perkembangan pelaksanaan APBN setiap bulan dikenal dengan nama...",
+                options: [
+                    "A. Warta Fiskal Bulanan",
+                    "B. Buletin Anggaran Kita (APBN KiTa)",
+                    "C. Jurnal Perbendaharaan Negara",
+                    "D. Laporan Kinerja Pemerintah Pusat",
+                    "E. Nota Keuangan Singkat"
+                ],
+                correct: 1,
+                explanation: "APBN KiTa (Kinerja dan Fakta) adalah publikasi resmi bulanan Kemenkeu mengenai realisasi dan perkembangan APBN."
+            },
+            {
+                q: "Nilai-nilai Kementerian Keuangan terdiri dari 5 pilar utama. Manakah pilihan berikut yang seluruhnya merupakan nilai-nilai Kemenkeu?",
+                options: [
+                    "A. Jujur, Adil, Transparan, Akuntabel, Mandiri",
+                    "B. Integritas, Profesionalisme, Sinergi, Pelayanan, Kesempurnaan",
+                    "C. Disiplin, Tanggung Jawab, Loyalitas, Dedikasi, Korsa",
+                    "D. Efisien, Efektif, Produktif, Inovatif, Kompetitif",
+                    "E. Amanah, Cepat, Tepat, Akurat, Terpercaya"
+                ],
+                correct: 1,
+                explanation: "Nilai-nilai Kementerian Keuangan adalah Integritas, Profesionalisme, Sinergi, Pelayanan, dan Kesempurnaan."
+            },
+            {
+                q: "Seluruh pegawai Kementerian Keuangan diwajibkan untuk menyampaikan Laporan Harta Kekayaan (LHK) setiap tahun. Apakah tujuan utama dari pelaporan tersebut?",
+                options: [
+                    "A. Menentukan besaran pajak penghasilan pegawai secara progresif.",
+                    "B. Menjaga integritas, transparansi, dan mencegah potensi konflik kepentingan atau korupsi.",
+                    "C. Menjadi syarat utama dalam kenaikan pangkat otomatis setiap dua tahun.",
+                    "D. Menghitung besaran tunjangan kinerja bulanan pegawai.",
+                    "E. Membantu perbankan nasional dalam memberikan kredit kepemilikan rumah."
+                ],
+                correct: 1,
+                explanation: "Pelaporan harta kekayaan wajib dilakukan untuk menjaga integritas dan transparansi pejabat/pegawai pengelola keuangan negara."
+            },
+            {
+                q: "Sebuah perusahaan swasta atau BUMN yang memproduksi barang kebutuhan pokok masyarakat mendapatkan alokasi anggaran dari pemerintah agar harga jualnya terjangkau oleh publik. Alokasi ini dinamakan...",
+                options: [
+                    "A. Belanja Hibah",
+                    "B. Belanja Subsidi",
+                    "C. Bantuan Sosial",
+                    "D. Pengeluaran Pembiayaan",
+                    "E. Belanja Modal"
+                ],
+                correct: 1,
+                explanation: "Subsidi adalah alokasi anggaran kepada produsen/lembaga agar harga jual barang/jasa bagi hajat hidup orang banyak terjangkau."
+            },
+            {
+                q: "Manakah di antara komponen berikut yang TIDAK termasuk ke dalam kelompok Belanja Pemerintah Pusat menurut jenis belanja (klasifikasi ekonomi) dalam APBN?",
+                options: [
+                    "A. Belanja Pegawai",
+                    "B. Belanja Barang",
+                    "C. Belanja Modal",
+                    "D. Transfer ke Daerah",
+                    "E. Pembayaran Bunga Utang"
+                ],
+                correct: 3,
+                explanation: "Transfer ke Daerah adalah kelompok pengeluaran negara terpisah dari Belanja Pemerintah Pusat."
+            },
+            {
+                q: "Dalam instrumen pembiayaan utang, instrumen surat berharga yang diterbitkan berdasarkan prinsip syariah yang memerlukan underlying asset dan opini syariah disebut...",
+                options: [
+                    "A. Surat Utang Negara (SUN)",
+                    "B. Surat Berharga Syariah Negara (SBSN / Sukuk Negara)",
+                    "C. Treasury Bills Syariah",
+                    "D. Obligasi Ritel Konvensional",
+                    "E. Surat Perbendaharaan Negara Valas"
+                ],
+                correct: 1,
+                explanation: "SBSN (Sukuk Negara) diterbitkan berdasarkan prinsip syariah dan wajib memiliki underlying asset."
+            },
+            {
+                q: "Sisa Lebih Pembiayaan Anggaran (SiLPA) terjadi apabila dalam realisasi APBN...",
+                options: [
+                    "A. Realisasi belanja lebih besar daripada realisasi pendapatan dan pembiayaan.",
+                    "B. Realisasi pendapatan negara dan hibah serta pembiayaan lebih besar daripada realisasi belanja negara.",
+                    "C. Target defisit anggaran melampaui batas 3% dari PDB.",
+                    "D. Pembayaran bunga utang menggunakan utang baru seluruhnya.",
+                    "E. Pendapatan dalam negeri sama persis dengan pengeluaran rutin."
+                ],
+                correct: 1,
+                explanation: "SiLPA adalah selisih lebih realisasi pembiayaan atas realisasi defisit atau ketika pendapatan & pembiayaan lebih besar dari belanja."
+            },
+            {
+                q: "Akumulasi dari SiLPA dan SiKPA dari tahun-tahun anggaran yang lalu dan tahun anggaran berjalan setelah ditutup dan dikoreksi pembukuannya disebut...",
+                options: [
+                    "A. Dana Cadangan Umum",
+                    "B. Saldo Anggaran Lebih (SAL)",
+                    "C. Rekening Kas Umum Negara (RKUN)",
+                    "D. Dana Abadi Nasional",
+                    "E. Cadangan Fiskal Darurat"
+                ],
+                correct: 1,
+                explanation: "Saldo Anggaran Lebih (SAL) adalah akumulasi SiLPA/SiKPA dari tahun-tahun lalu dan tahun berjalan."
+            },
+            {
+                q: "Sebelum tahun 2000, tahun anggaran di Indonesia dimulai pada tanggal 1 April dan berakhir pada 31 Maret tahun berikutnya. Mulai tahun berapakah tahun anggaran disesuaikan menjadi 1 Januari sampai dengan 31 Desember?",
+                options: [
+                    "A. Tahun 2000",
+                    "B. Tahun 2001",
+                    "C. Tahun 2003",
+                    "D. Tahun 2004",
+                    "E. Tahun 2005"
+                ],
+                correct: 1,
+                explanation: "Mulai tahun 2001, tahun anggaran diubah menjadi 1 Januari s.d. 31 Desember (sehingga tahun 2000 berdurasi 9 bulan)."
+            },
+            {
+                q: "Kriteria organisasi yang dapat diusulkan sebagai Bagian Anggaran baru meliputi pembentukan oleh UU/PP/Perpres, bertanggung jawab langsung kepada Presiden, dan unit kesekretariatan setingkat...",
+                options: [
+                    "A. Eselon IV",
+                    "B. Eselon III",
+                    "C. Eselon II",
+                    "D. Eselon I",
+                    "E. Pejabat Fungsional Madya"
+                ],
+                correct: 3,
+                explanation: "Unit kesekretariatan untuk membantu lembaga pemegang Bagian Anggaran harus setingkat eselon I dan memiliki entitas lengkap."
+            },
+            {
+                q: "Program yang diarahkan untuk mendukung pelayanan aparatur dan/atau administrasi pemerintahan (internal) dan memiliki karakteristik sejenis pada setiap K/L disebut...",
+                options: [
+                    "A. Program Teknis",
+                    "B. Program Generik",
+                    "C. Program Prioritas Nasional",
+                    "D. Program Strategis Utama",
+                    "E. Program Kewilayahan"
+                ],
+                correct: 1,
+                explanation: "Program Generik adalah program untuk mendukung pelayanan aparatur/administrasi internal yang seragam di setiap K/L."
+            },
+            {
+                q: "Dalam klasifikasi belanja menurut jenis, jenis belanja manakah yang dikelompokkan sebagai belanja wajib (non-discretionary)?",
+                options: [
+                    "A. Belanja Pegawai, Belanja Barang Operasional, dan Bunga Utang",
+                    "B. Bantuan Sosial dan Belanja Modal",
+                    "C. Belanja Barang Non-Operasional",
+                    "D. Belanja Modal untuk Infrastruktur IKN",
+                    "E. Bantuan Langsung Tunai insidentil"
+                ],
+                correct: 0,
+                explanation: "Belanja non-discretionary (belanja wajib) meliputi belanja pegawai, barang operasional, pembayaran bunga utang, subsidi, dan belanja lainnya."
+            },
+            {
+                q: "Berapakah digit pertama dari kode akun dalam Bagan Akun Standar yang menunjukkan kelompok akun 'Pendapatan'?",
+                options: [
+                    "A. Digit 2",
+                    "B. Digit 3",
+                    "C. Digit 4",
+                    "D. Digit 5",
+                    "E. Digit 7"
+                ],
+                correct: 2,
+                explanation: "Digit pertama kode akun = 4 menunjukkan akun Pendapatan."
+            },
+            {
+                q: "Mandatory spending untuk Dana Desa diatur berdasarkan ketentuan perundang-undangan sebesar persentase tertentu dari dana berikut, yaitu...",
+                options: [
+                    "A. 10% dari DAU dan DBH",
+                    "B. 20% dari total Pendapatan Negara",
+                    "C. 5% dari Anggaran Kesehatan",
+                    "D. 2,25% dari plafon DAU",
+                    "E. 15% dari Penerimaan Perpajakan"
+                ],
+                correct: 0,
+                explanation: "Dana Desa adalah bagian dari TKD sebesar 10% dari DAU dan DBH berdasarkan UU Nomor 3 Tahun 2024."
+            },
+            {
+                q: "Alat kelengkapan DPR yang bersifat tidak tetap dan dibentuk untuk membantu pembahasan RUU APBN seperti Panja Asumsi Dasar, Pendapatan, Defisit dan Pembiayaan dulunya dikenal sebagai...",
+                options: [
+                    "A. Panja A",
+                    "B. Panja B",
+                    "C. Panja C",
+                    "D. Tim Anggaran Pemerintah Pusat",
+                    "E. Tim Perumus Utama"
+                ],
+                correct: 0,
+                explanation: "Panja Asumsi Dasar, Pendapatan, Defisit dan Pembiayaan dulunya dikenal sebagai Panja A."
+            },
+            {
+                q: "Dari sisi proses penyusunan APBN, proses yang didasarkan pada pengetahuan dan keahlian teknis dari para birokrat disebut proses...",
+                options: [
+                    "A. Proses Politis",
+                    "B. Proses Administratif",
+                    "C. Proses Teknokratis",
+                    "D. Proses Partisipatif",
+                    "E. Proses Yuridis"
+                ],
+                correct: 2,
+                explanation: "Proses teknokratis artinya kebijakan penyusunan APBN didasarkan pada pengetahuan dan keahlian teknis birokrat."
+            },
+            {
+                q: "Inovasi pembayaran digital di lingkungan Kementerian Keuangan yang digunakan untuk mempermudah pembayaran digital dalam pengadaan barang/jasa satker secara non-tunai adalah...",
+                options: [
+                    "A. DigiPaySatu",
+                    "B. SPAN Online Mobile",
+                    "C. Cash Transfer System",
+                    "D. e-Budgeting Nasional",
+                    "E. Virtual Account BUN"
+                ],
+                correct: 0,
+                explanation: "DigiPaySatu adalah platform digital pembayaran pengadaan barang/jasa pemerintah untuk mendukung cashless government."
+            },
+            {
+                q: "Dokumen perencanaan nasional untuk periode 1 (satu) tahun yang merupakan penjabaran dari RPJM Nasional dan menjadi pedoman penyusunan Rancangan APBN adalah...",
+                options: [
+                    "A. Rencana Strategis K/L (Renstra-K/L)",
+                    "B. Rencana Kerja Pemerintah (RKP)",
+                    "C. Rencana Kerja dan Anggaran (RKA-K/L)",
+                    "D. Kerangka Acuan Kerja (KAK)",
+                    "E. Nota Keuangan"
+                ],
+                correct: 1,
+                explanation: "Rencana Kerja Pemerintah (RKP) adalah dokumen perencanaan tahunan yang menjabarkan RPJM Nasional dan pedoman penyusunan RAPBN."
+            },
+            {
+                q: "Manakah komponen yang termasuk ke dalam Pendapatan Negara Bukan Pajak (PNBP) dari sumber daya alam non-migas?",
+                options: [
+                    "A. Pendapatan PPh Migas",
+                    "B. Pendapatan Pertambangan Mineral dan Batubara",
+                    "C. Pendapatan Bea Masuk dan Bea Keluar",
+                    "D. Pendapatan Cukai Hasil Tembakau",
+                    "E. Pendapatan dari Laba BUMN Perbankan"
+                ],
+                correct: 1,
+                explanation: "Pendapatan pertambangan mineral dan batubara, kehutanan, perikanan, dan panas bumi adalah bagian dari PNBP SDA non-migas."
+            },
+            {
+                q: "Dalam instrumen pembiayaan investasi pemerintah, apa tujuan utama dilakukannya Penyertaan Modal Negara (PMN) kepada BUMN?",
+                options: [
+                    "A. Memperbaiki struktur permodalan dan meningkatkan kapasitas usaha BUMN",
+                    "B. Menutup seluruh kerugian operasional akibat salah kelola manajemen swasta",
+                    "C. Mengubah status BUMN menjadi lembaga non-pemerintah yang independen",
+                    "D. Membayar cicilan pokok utang luar negeri pemerintah pusat",
+                    "E. Membiayai subsidi energi langsung kepada konsumen rumah tangga"
+                ],
+                correct: 0,
+                explanation: "Tujuan PMN antara lain memperbaiki struktur permodalan dan meningkatkan kapasitas usaha BUMN serta perseroan terbatas."
+            },
+            {
+                q: "Mekanisme penerusan pinjaman luar negeri kepada BUMN atau Pemda melalui Departemen Keuangan dikenal dengan istilah...",
+                options: [
+                    "A. Subsidiary Loan Agreement (SLA)",
+                    "B. Public Private Partnership (PPP)",
+                    "C. Availability Payment (AP)",
+                    "D. Government to Government Grant",
+                    "E. Sovereign Guarantee Loan"
+                ],
+                correct: 0,
+                explanation: "Subsidiary Loan Agreement (SLA) adalah perjanjian penerusan pinjaman kepada BUMN atau Pemda."
+            },
+            {
+                q: "Dalam format pelaporan APBN, mengapa format I-account lebih diunggulkan dibanding T-account?",
+                options: [
+                    "A. Karena format T-account menggunakan mata uang asing secara mutlak.",
+                    "B. Karena I-account meningkatkan transparansi, mempermudah pemantauan, dan memudahkan analisis komparasi internasional.",
+                    "C. Karena T-account tidak memperhitungkan komponen belanja pegawai sama sekali.",
+                    "D. Karena I-account menghapuskan seluruh pos pembiayaan utang negara.",
+                    "E. Karena format T-account hanya boleh digunakan oleh pemerintah daerah."
+                ],
+                correct: 1,
+                explanation: "Keuntungan I-account meliputi peningkatan transparansi, kemudahan pemantauan, dan komparasi internasional (sesuai GFS IMF)."
+            },
+            {
+                q: "Bagian Anggaran manakah yang menaungi Kementerian Keuangan dalam struktur Bagian Anggaran belanja pemerintah?",
+                options: [
+                    "A. BA 001",
+                    "B. BA 005",
+                    "C. BA 010",
+                    "D. BA 015",
+                    "E. BA 999"
+                ],
+                correct: 3,
+                explanation: "BA 015 adalah kode Bagian Anggaran untuk Kementerian Keuangan."
+            },
+            {
+                q: "Berapakah jumlah komisi resmi yang ada di Dewan Perwakilan Rakyat (DPR) Republik Indonesia berdasarkan struktur penataan komisi terbaru?",
+                options: [
+                    "A. 10 Komisi",
+                    "B. 11 Komisi",
+                    "C. 12 Komisi",
+                    "D. 13 Komisi",
+                    "E. 15 Komisi"
+                ],
+                correct: 3,
+                explanation: "DPR memiliki 13 Komisi (dari Komisi I hingga Komisi XIII) dengan ruang lingkup tugas masing-masing."
+            },
+            {
+                q: "Dalam kerangka Penganggaran Berbasis Kinerja, istilah 'output' didefinisikan sebagai...",
+                options: [
+                    "A. Dampak jangka panjang dari kesejahteraan masyarakat secara luas",
+                    "B. Prestasi kerja berupa barang atau jasa yang dihasilkan langsung dari suatu kegiatan",
+                    "C. Jumlah alokasi uang yang dikeluarkan oleh bendahara pengeluaran",
+                    "D. Kebijakan makroekonomi yang ditetapkan oleh bank sentral",
+                    "E. Jumlah pegawai negeri sipil yang terserap di kementerian"
+                ],
+                correct: 1,
+                explanation: "Output adalah prestasi kerja berupa produk akhir (barang atau jasa) yang dihasilkan dari suatu kegiatan."
+            },
+            {
+                q: "Apa perbedaan mendasar antara dokumen Perencanaan dengan dokumen Penganggaran?",
+                options: [
+                    "A. Perencanaan berdurasi 1 tahun, sedangkan penganggaran berdurasi 20 tahun.",
+                    "B. Perencanaan disusun oleh Kementerian Keuangan, sedangkan penganggaran oleh Bappenas.",
+                    "C. Perencanaan berorientasi pada program/kegiatan prioritas dengan pendekatan money follow program, sedangkan penganggaran menyajikan rencana keuangan dan alokasi belanja terpadu.",
+                    "D. Dokumen perencanaan tidak memiliki dasar hukum mengikat.",
+                    "E. Dokumen penganggaran tidak memerlukan persetujuan DPR."
+                ],
+                correct: 2,
+                explanation: "Perencanaan dipimpin Bappenas (durasi panjang/menengah, money follow program), sedangkan penganggaran oleh Kemenkeu (tahunan, terpadu)."
+            },
+            {
+                q: "Proses reviu atas Anggaran Belanja Pemerintah Pusat yang dilakukan oleh Direktorat Pelaksanaan Anggaran atau Kanwil DJPb di awal tahun berjalan untuk mengidentifikasi ruang fiskal dinamakan...",
+                options: [
+                    "A. Spending Review Umum",
+                    "B. Spending Review Tematik",
+                    "C. Audit Investigasi BPK",
+                    "D. Evaluasi Kinerja Anggaran Tematik",
+                    "E. Reviu Angka Dasar Baseline"
+                ],
+                correct: 0,
+                explanation: "Spending review umum dilakukan pada awal tahun anggaran untuk mengidentifikasi ruang fiskal tahun berikutnya."
+            },
+            {
+                q: "Sistem Akuntabilitas Kinerja Instansi Pemerintah (SAKIP) menghasilkan laporan akhir instansi yang menggambarkan pencapaian kinerja atas program dan kegiatan yang dinamakan...",
+                options: [
+                    "A. Laporan Keuangan Pemerintah Pusat (LKPP)",
+                    "B. Laporan Kinerja (Lakin)",
+                    "C. Laporan Realisasi Anggaran (LRA)",
+                    "D. Catatan atas Laporan Keuangan (CaLK)",
+                    "E. Laporan Hasil Pemeriksaan (LHP)"
+                ],
+                correct: 1,
+                explanation: "SAKIP menghasilkan Laporan Kinerja (Lakin) yang menggambarkan pencapaian kinerja instansi."
+            },
+            {
+                q: "Bentuk penghargaan (reward) yang diberikan pemerintah kepada Kementerian/Lembaga berprestasi dengan kategori nilai kinerja anggaran sangat baik dapat berupa...",
+                options: [
+                    "A. Tambahan alokasi anggaran kegiatan (insentif) dan piagam penghargaan",
+                    "B. Pembebasan dari kewajiban audit oleh BPK",
+                    "C. Kenaikan pangkat istimewa bagi seluruh pegawai tanpa terkecuali",
+                    "D. Hak istimewa untuk memungut pajak daerah sendiri",
+                    "E. Pengalihan status menjadi perusahaan swasta mandiri"
+                ],
+                correct: 0,
+                explanation: "Penghargaan kepada K/L berprestasi dapat berupa piagam, publikasi, dan tambahan anggaran kegiatan (insentif)."
+            },
+            {
+                q: "Pendekatan akuntansi pemerintahan yang mengakui adanya transaksi pada saat kas masuk atau keluar dari Rekening Kas Umum Negara disebut...",
+                options: [
+                    "A. Basis Akrual (Accrual Basis)",
+                    "B. Basis Kas (Cash Basis)",
+                    "C. Basis Komitmen (Commitment Basis)",
+                    "D. Basis Campuran (Modified Basis)",
+                    "E. Basis Ekonomi (Economic Basis)"
+                ],
+                correct: 1,
+                explanation: "Basis kas (cash based) mengakui transaksi ketika kas masuk atau keluar dari Rekening Kas Umum Negara."
+            },
+            {
+                q: "Berapakah jumlah komponen utama laporan keuangan yang dikonsolidasikan dalam Laporan Keuangan Pemerintah Pusat (LKPP) menurut PP No. 71 Tahun 2010?",
+                options: [
+                    "A. 5 Komponen",
+                    "B. 6 Komponen",
+                    "C. 7 Komponen",
+                    "D. 8 Komponen",
+                    "E. 9 Komponen"
+                ],
+                correct: 2,
+                explanation: "LKPP terdiri dari 7 komponen (LRA, LP-SAL, LO, LPE, Neraca, LAK, dan CaLK)."
+            },
+            {
+                q: "Dalam siklus pemeriksaan BPK, Laporan Hasil Pemeriksaan atas LKPP diserahkan oleh BPK kepada DPR dan DPD selambat-lambatnya...",
+                options: [
+                    "A. 1 bulan setelah menerima LKPP unaudited",
+                    "B. 2 bulan setelah menerima LKPP unaudited",
+                    "C. 3 bulan setelah menerima LKPP unaudited",
+                    "D. 6 bulan setelah menerima LKPP unaudited",
+                    "E. Akhir tahun anggaran berjalan"
+                ],
+                correct: 1,
+                explanation: "LHP atas LKPP disampaikan BPK kepada DPR dan DPD selambat-lambatnya dua bulan setelah menerima laporan dari pemerintah."
+            },
+            {
+                q: "Manakah asas pengelolaan Barang Milik Negara yang menyatakan bahwa penyelenggaraan pengelolaan BMN harus terbuka dan membuka diri terhadap hak masyarakat dalam memperoleh informasi yang benar?",
+                options: [
+                    "A. Asas Fungsional",
+                    "B. Asas Kepastian Hukum",
+                    "C. Asas Transparansi",
+                    "D. Asas Efisiensi",
+                    "E. Asas Kepastian Nilai"
+                ],
+                correct: 2,
+                explanation: "Asas transparansi berarti penyelenggaraan pengelolaan BMN harus terbuka bagi masyarakat."
+            },
+            {
+                q: "Kegiatan pemeliharaan dan perawatan BMN yang dilakukan secara berkala oleh tenaga terlatih yang mengakibatkan pembebanan anggaran disebut pemeliharaan...",
+                options: [
+                    "A. Pemeliharaan Ringan",
+                    "B. Pemeliharaan Sedang",
+                    "C. Pemeliharaan Berat",
+                    "D. Pemeliharaan Darurat",
+                    "E. Pemeliharaan Insidentil"
+                ],
+                correct: 1,
+                explanation: "Pemeliharaan sedang adalah pemeliharaan berkala oleh tenaga terlatih yang memerlukan biaya/pembebanan anggaran."
+            },
+            {
+                q: "Bentuk pemanfaatan BMN berupa pendayagunaan BMN oleh pihak ketiga dalam jangka waktu tertentu dalam rangka peningkatan Penerimaan Negara Bukan Pajak (PNBP) dinamakan...",
+                options: [
+                    "A. Sewa",
+                    "B. Pinjam Pakai",
+                    "C. Kerja Sama Pemanfaatan (KSP)",
+                    "D. Bangun Guna Serah",
+                    "E. Hibah BMN"
+                ],
+                correct: 2,
+                explanation: "Kerja Sama Pemanfaatan (KSP) adalah pendayagunaan BMN oleh pihak lain dalam jangka waktu tertentu untuk peningkatan PNBP."
+            },
+            {
+                q: "Apa kedudukan hukum Badan Layanan Umum (BLU) dalam kaitannya dengan kekayaan negara?",
+                options: [
+                    "A. Merupakan bagian dari kekayaan negara yang dipisahkan seperti BUMN.",
+                    "B. Merupakan bagian dari kekayaan negara yang tidak dipisahkan (status hukum tidak terpisah dari instansi induk).",
+                    "C. Menjadi badan hukum perseroan terbatas mandiri sepenuhnya.",
+                    "D. Dimiliki sepenuhnya oleh pemerintah daerah otonom tanpa campur tangan pusat.",
+                    "E. Menjadi yayasan sosial nirlaba swasta."
+                ],
+                correct: 1,
+                explanation: "BLU merupakan bagian kekayaan negara yang tidak dipisahkan, status hukumnya melekat pada instansi induk (K/L atau Pemda)."
+            },
+            {
+                q: "Manakah jenis BLU yang mencakup lembaga seperti Lembaga Pengelola Dana Pendidikan (LPDP) dan Pusat Investasi Pemerintah (PIP)?",
+                options: [
+                    "A. BLU Penyedia Layanan Barang dan/atau Jasa",
+                    "B. BLU Pengelola Wilayah/Kawasan Tertentu",
+                    "C. BLU Pengelola Dana Khusus",
+                    "D. BLU Komersial Terbatas",
+                    "E. BLU Perbankan Sentral"
+                ],
+                correct: 2,
+                explanation: "LPDP dan PIP adalah contoh BLU Pengelola Dana Khusus untuk meningkatkan perekonomian/layanan."
+            },
+            {
+                q: "Undang-Undang Nomor 1 Tahun 2022 mengatur tentang Hubungan Keuangan antara Pemerintah Pusat dan Pemerintahan Daerah (HKPD). Apa salah satu pilar utama HKPD?",
+                options: [
+                    "A. Sentralisasi penuh seluruh kewenangan fiskal di Jakarta",
+                    "B. Penghapusan seluruh pajak daerah demi kemudahan pengusaha",
+                    "C. Meminimalkan ketimpangan vertikal dan horizontal melalui kebijakan TKD dan Pembiayaan Utang Daerah",
+                    "D. Pelarangan total bagi daerah untuk melakukan pinjaman",
+                    "E. Penyamarataan tarif retribusi di seluruh kabupaten/kota se-Indonesia"
+                ],
+                correct: 2,
+                explanation: "Salah satu pilar HKPD adalah meminimalkan ketimpangan vertikal & horizontal melalui kebijakan TKD dan Pembiayaan Utang Daerah."
+            },
+            {
+                q: "Dalam restrukturisasi pajak daerah pada UU HKPD, 5 jenis pajak berbasis konsumsi direklasifikasi menjadi satu jenis pajak utama, yaitu...",
+                options: [
+                    "A. Pajak Pertambahan Nilai Daerah (PPND)",
+                    "B. Pajak Barang dan Jasa Tertentu (PBJT)",
+                    "C. Pajak Konsumsi Masyarakat Daerah (PKMD)",
+                    "D. Pajak Penjualan Eceran Daerah (PPED)",
+                    "E. Pajak Layanan Publik Daerah (PLPD)"
+                ],
+                correct: 1,
+                explanation: "Reklasifikasi 5 pajak berbasis konsumsi disatukan menjadi Pajak Barang dan Jasa Tertentu (PBJT)."
+            },
+            {
+                q: "Komponen Transfer ke Daerah (TKD) yang dialokasikan dengan tujuan mendanai program, kegiatan, dan/atau kebijakan tertentu yang menjadi prioritas nasional disebut...",
+                options: [
+                    "A. Dana Bagi Hasil (DBH)",
+                    "B. Dana Alokasi Umum (DAU)",
+                    "C. Dana Alokasi Khusus (DAK)",
+                    "D. Dana Otonomi Khusus",
+                    "E. Insentif Fiskal"
+                ],
+                correct: 2,
+                explanation: "Dana Alokasi Khusus (DAK) mendanai program, kegiatan, dan kebijakan khusus yang menjadi prioritas nasional."
+            },
+            {
+                q: "Apakah instrumen pembiayaan utang daerah yang diperbolehkan bagi pemerintah daerah berdasarkan UU HKPD?",
+                options: [
+                    "A. Pinjaman daerah dari luar negeri secara langsung tanpa izin",
+                    "B. Pinjaman daerah, obligasi daerah, dan sukuk daerah",
+                    "C. Menerbitkan surat utang berharga internasional berdenominasi valas",
+                    "D. Pinjaman langsung dari bank sentral asing",
+                    "E. Penjualan saham BUMD di bursa efek luar negeri"
+                ],
+                correct: 1,
+                explanation: "Pembiayaan utang daerah meliputi pinjaman daerah, obligasi daerah, dan sukuk daerah (dilarang pinjaman luar negeri langsung)."
+            },
+            {
+                q: "Berdasarkan skor Open Budget Survey 2023, berapakah skor Budget Transparency Score (Open Budget Index) yang diperoleh oleh Indonesia?",
+                options: [
+                    "A. Skor 50",
+                    "B. Skor 60",
+                    "C. Skor 70",
+                    "D. Skor 85",
+                    "E. Skor 95"
+                ],
+                correct: 2,
+                explanation: "Indonesia memperoleh budget transparency score sebesar 70 (skala 100) pada Open Budget Survey tahun 2023."
+            },
+            {
+                q: "Manakah kanal pengaduan resmi berupa Whistleblowing System (WiSe) yang disediakan Kementerian Keuangan bagi masyarakat untuk melaporkan indikasi pelanggaran?",
+                options: [
+                    "A. www.wise.kemenkeu.go.id",
+                    "B. pengaduan.pajak.go.id",
+                    "C. LAPOR.go.id/kemenkeu",
+                    "D. whistle.bumn.go.id",
+                    "E. pengaduan.djpb.kemenkeu.go.id"
+                ],
+                correct: 0,
+                explanation: "Kanal Whistleblowing System Kementerian Keuangan dapat diakses melalui www.wise.kemenkeu.go.id."
+            },
+            {
+                q: "Publikasi bulanan resmi Kementerian Keuangan yang menyajikan laporan realisasi dan perkembangan pelaksanaan APBN setiap bulan dikenal dengan singkatan...",
+                options: [
+                    "A. APBN KiTa (Kinerja dan Fakta)",
+                    "B. INFO APBN Bulanan",
+                    "C. Buletin Fiskal Nusantara",
+                    "D. Laporan Realisasi Fiskal Kemenkeu",
+                    "E. Warta Anggaran Negara"
+                ],
+                correct: 0,
+                explanation: "APBN KiTa (Kinerja dan Fakta) adalah publikasi bulanan resmi Kemenkeu mengenai realisasi pelaksanaan APBN."
+            },
+            {
+                q: "Dalam pengujian belanja, pengujian yang memastikan bahwa maksud/tujuan kegiatan sesuai sasaran/output kegiatan dalam DIPA dan tidak ada unsur pemborosan disebut pengujian...",
+                options: [
+                    "A. Rechtmatigheid",
+                    "B. Wetmatigheid",
+                    "C. Doelmatigheid",
+                    "D. Formalitas",
+                    "E. Akuntabilitas"
+                ],
+                correct: 2,
+                explanation: "Doelmatigheid adalah pengujian kesesuaian substansi/tujuan kegiatan dan menghindari pemborosan (efisiensi)."
+            },
+            {
+                q: "Dokumen pelaksanaan anggaran yang memuat alokasi anggaran untuk masing-masing satuan kerja sebagai penjabaran dari DIPA Induk disebut...",
+                options: [
+                    "A. DIPA Induk",
+                    "B. DIPA Petikan",
+                    "C. RKA-K/L Satker",
+                    "D. Dokumen Alokasi Sementara",
+                    "E. Surat Pengesahan Anggaran"
+                ],
+                correct: 1,
+                explanation: "DIPA Petikan memuat alokasi anggaran untuk masing-masing satker sebagai penjabaran dari DIPA Induk."
+            },
+            {
+                q: "Proses revisi anggaran (Revisi DIPA) yang dilakukan dengan pergeseran rincian anggaran dalam satu Bagian Anggaran tanpa menyebabkan penambahan atau pengurangan pagu belanja disebut revisi...",
+                options: [
+                    "A. Revisi dengan perubahan pagu",
+                    "B. Revisi dengan pagu tetap",
+                    "C. Revisi administrasi murni",
+                    "D. Revisi APBN-P nasional",
+                    "E. Revisi darurat krisis"
+                ],
+                correct: 1,
+                explanation: "Revisi anggaran dengan pagu tetap adalah pergeseran rincian anggaran dalam 1 BA tanpa menambah/mengurangi pagu belanja."
+            },
+            {
+                q: "Manakah faktor penyebab yang dapat memicu perlunya dilakukan perubahan APBN (APBN-P) pada tahun berjalan?",
+                options: [
+                    "A. Perubahan asumsi dasar ekonomi makro yang menyimpang signifikan, perubahan kebijakan fiskal, atau kebutuhan mendesak.",
+                    "B. Pergantian staf pelaksana keuangan di tingkat satuan kerja kecil.",
+                    "C. Penambahan satu unit komputer di ruang tunggu kantor pelayanan.",
+                    "D. Pergeseran antar-komponen dalam satu output kegiatan satker.",
+                    "E. Kenaikan harga alat tulis kantor sebesar 2%."
+                ],
+                correct: 0,
+                explanation: "APBN-P dipicu oleh pergeseran makroekonomi signifikan, perubahan kebijakan fiskal, atau kebutuhan mendesak/darurat."
+            },
+            {
+                q: "Apakah instansi atau lembaga tinggi negara yang berwenang melaksanakan pemeriksaan atas pengelolaan dan tanggung jawab keuangan negara secara bebas dan mandiri di Indonesia?",
+                options: [
+                    "A. Badan Pengawasan Keuangan dan Pembangunan (BPKP)",
+                    "B. Inspektorat Jenderal Kementerian Keuangan",
+                    "C. Badan Pemeriksa Keuangan (BPK)",
+                    "D. Komisi Pemberantasan Korupsi (KPK)",
+                    "E. Dewan Perwakilan Rakyat (DPR)"
+                ],
+                correct: 2,
+                explanation: "Badan Pemeriksa Keuangan (BPK) adalah lembaga pemeriksa keuangan negara yang bebas dan mandiri sesuai UUD 1945."
+            },
+            {
+                q: "Dalam struktur organisasi Kementerian Keuangan, unit Eselon I yang bertugas merumuskan kebijakan di bidang fiskal dan makroekonomi adalah...",
+                options: [
+                    "A. Direktorat Jenderal Pajak",
+                    "B. Direktorat Jenderal Anggaran",
+                    "C. Direktorat Jenderal Strategi Ekonomi dan Fiskal (Badan Kebijakan Fiskal)",
+                    "D. Direktorat Jenderal Perbendaharaan",
+                    "E. Direktorat Jenderal Kekayaan Negara"
+                ],
+                correct: 2,
+                explanation: "Ditjen Strategi Ekonomi dan Fiskal / Badan Kebijakan Fiskal bertugas merumuskan kebijakan fiskal dan kerangka ekonomi makro."
+            },
+            {
+                q: "Unit Eselon I di Kementerian Keuangan yang bertugas melaksanakan fungsi Bendahara Umum Negara (BUN) dalam hal pencairan dana dan pertanggungjawaban perbendaharaan adalah...",
+                options: [
+                    "A. Direktorat Jenderal Pajak",
+                    "B. Direktorat Jenderal Perbendaharaan (DJPb)",
+                    "C. Direktorat Jenderal Bea dan Cukai",
+                    "D. Direktorat Jenderal Pengelolaan Pembiayaan dan Risiko",
+                    "E. Sekretariat Jenderal"
+                ],
+                correct: 1,
+                explanation: "Ditjen Perbendaharaan (DJPb) mengelola perbendaharaan negara dan menjalankan fungsi Kuasa BUN di tingkat operasional."
+            },
+            {
+                q: "Unit Eselon I di Kementerian Keuangan yang bertanggung jawab dalam pengelolaan Surat Berharga Negara (SBN) dan pengelolaan pinjaman serta hibah luar negeri adalah...",
+                options: [
+                    "A. Direktorat Jenderal Anggaran",
+                    "B. Direktorat Jenderal Pengelolaan Pembiayaan dan Risiko (DJPPR)",
+                    "C. Direktorat Jenderal Kekayaan Negara",
+                    "D. Direktorat Jenderal Perimbangan Keuangan",
+                    "E. Direktorat Jenderal Bea dan Cukai"
+                ],
+                correct: 1,
+                explanation: "DJPPR (Ditjen Pengelolaan Pembiayaan dan Risiko) mengelola pembiayaan utang (SBN & pinjaman) serta risiko fiskal."
+            },
+            {
+                q: "Unit Eselon I di Kementerian Keuangan yang mengelola hubungan keuangan antara pemerintah pusat dan pemerintah daerah serta dana transfer ke daerah adalah...",
+                options: [
+                    "A. Direktorat Jenderal Pajak",
+                    "B. Direktorat Jenderal Perbendaharaan",
+                    "C. Direktorat Jenderal Perimbangan Keuangan (DJPK)",
+                    "D. Direktorat Jenderal Anggaran",
+                    "E. Direktorat Jenderal Bea dan Cukai"
+                ],
+                correct: 2,
+                explanation: "DJPK (Ditjen Perimbangan Keuangan) mengelola hubungan keuangan pusat-daerah termasuk dana transfer ke daerah."
+            },
+            {
+                q: "Apa fungsi utama dari Laporan Arus Kas (LAK) dalam komponen laporan keuangan pemerintah?",
+                options: [
+                    "A. Menggambarkan posisi aset, kewajiban, dan ekuitas pada tanggal tertentu.",
+                    "B. Menggambarkan saldo kas awal, penerimaan dan pengeluaran kas selama satu tahun, serta saldo kas akhir.",
+                    "C. Menggambarkan surplus/defisit operasional entitas pelaporan.",
+                    "D. Membandingkan target anggaran legislatif dengan realisasi kas daerah.",
+                    "E. Menyajikan rincian inventarisasi barang milik negara."
+                ],
+                correct: 1,
+                explanation: "Laporan Arus Kas menggambarkan saldo kas awal, arus kas masuk/keluar selama periode, dan saldo kas akhir."
+            },
+            {
+                q: "Dalam pengadaan barang/jasa pemerintah, metode pengadaan di mana pekerjaan direncanakan, dikerjakan, dan/או diawasi sendiri oleh kementerian/lembaga disebut...",
+                options: [
+                    "A. Pengadaan melalui Penyedia",
+                    "B. Pengadaan Swakelola",
+                    "C. Pengadaan Tender Cepat",
+                    "D. Pengadaan Penunjukan Langsung",
+                    "E. Pengadaan Darurat Swasta"
+                ],
+                correct: 1,
+                explanation: "Swakelola adalah metode pengadaan di mana pekerjaan direncanakan, dikerjakan, dan/atau diawasi sendiri oleh K/L/Pemda."
+            },
+            {
+                q: "Apa perbedaan utama antara Dana Alokasi Umum (DAU) yang bersifat 'block grant' dengan Dana Alokasi Khusus (DAK) yang bersifat 'specific grant'?",
+                options: [
+                    "A. DAU penggunaannya ditentukan secara spesifik oleh pusat, sedangkan DAK bebas digunakan.",
+                    "B. DAU penggunaannya tidak ditentukan penggunaannya secara khusus oleh pusat (let the region manage), sedangkan DAK penggunaannya telah ditentukan secara khusus oleh pemerintah.",
+                    "C. DAU bersumber dari pinjaman luar negeri, sedangkan DAK dari pajak dalam negeri.",
+                    "D. DAU hanya diberikan kepada pemerintah provinsi, sedangkan DAK untuk desa.",
+                    "E. DAU tidak memerlukan persetujuan Menteri Keuangan sama sekali."
+                ],
+                correct: 1,
+                explanation: "DAU bersifat umum (block grant) tanpa earmarking ketat, sedangkan DAK bersifat khusus (specific grant) dengan penggunaan ditentukan pemerintah."
+            },
+            {
+                q: "Dalam struktur APBN, apa sajakah komponen utama pembentuk postur APBN secara lengkap?",
+                options: [
+                    "A. Pendapatan Negara, Belanja Negara, Keseimbangan Primer, Surplus/Defisit, dan Pembiayaan Anggaran",
+                    "B. Hanya Pendapatan Pajak dan Belanja Pegawai",
+                    "C. Hanya Penerimaan Negara dan Pengeluaran Rutin",
+                    "D. Pendapatan Daerah dan Belanja Daerah",
+                    "E. Utang Luar Negeri dan Hibah Internasional"
+                ],
+                correct: 0,
+                explanation: "Komponen utama struktur APBN meliputi Pendapatan Negara & Hibah, Belanja Negara, Keseimbangan Primer, Surplus/Defisit, dan Pembiayaan Anggaran."
+            },
+            {
+                q: "Apakah fungsi utama dari Nota Keuangan yang disampaikan oleh Presiden bersamaan dengan pengajuan Rancangan Undang-Undang tentang APBN setiap bulan Agustus?",
+                options: [
+                    "A. Sebagai undang-undang penagihan pajak nasional kepada warga negara.",
+                    "B. Sebagai dokumen penjelasan komprehensif mengenai latar belakang, asumsi makro, kebijakan fiskal, pendapatan, belanja, dan pembiayaan RAPBN.",
+                    "C. Sebagai surat perintah pencairan dana darurat kepada seluruh gubernur.",
+                    "D. Sebagai laporan hasil audit BPK atas tahun anggaran yang lalu.",
+                    "E. Sebagai dokumen internal rahasia khusus kabinet menteri."
+                ],
+                correct: 1,
+                explanation: "Nota Keuangan memberikan penjelasan terperinci mengenai kebijakan dan asumsi yang melatarbelakangi R-APBN."
+            },
+            {
+                q: "Manakah pernyataan yang paling tepat mengenai hubungan antara dokumen Rencana Kerja Pemerintah (RKP) dengan Rencana Kerja dan Anggaran K/L (RKA-K/L)?",
+                options: [
+                    "A. RKP tidak memiliki kaitan sama sekali dengan RKA-K/L.",
+                    "B. RKP menjadi acuan dalam penyusunan Renja-K/L, yang kemudian dijabarkan secara rinci ke dalam dokumen RKA-K/L satker.",
+                    "C. RKA-K/L disusun terlebih dahulu sebelum RKP dirumuskan oleh Bappenas.",
+                    "D. RKP hanya mengatur belanja daerah, sedangkan RKA-K/L mengatur belanja pusat.",
+                    "E. RKA-K/L menggantikan fungsi RKP secara keseluruhan."
+                ],
+                correct: 1,
+                explanation: "RKP menjadi pedoman penyusunan Renja-K/L dan RKA-K/L untuk memastikan konsistensi perencanaan dan penganggaran."
+            },
+            {
+                q: "Apakah yang dimaksud dengan 'Mandatory Spending' dalam konteks pengelolaan APBN di Indonesia?",
+                options: [
+                    "A. Belanja sukarela yang dapat dikurangi kapan saja oleh menteri tanpa persetujuan.",
+                    "B. Pengeluaran negara yang wajib dialokasikan pada proporsi tertentu sebagai amanat langsung undang-undang (seperti pendidikan).",
+                    "C. Anggaran khusus untuk perjalanan dinas pejabat tinggi negara.",
+                    "D. Dana cadangan bencana alam yang tidak terikat aturan hukum.",
+                    "E. Pungutan pajak tambahan bagi perusahaan multinasional."
+                ],
+                correct: 1,
+                explanation: "Mandatory spending adalah belanja wajib yang besarannya dipatok berdasarkan proporsi tertentu sesuai amanat undang-undang."
+            },
+            {
+                q: "Bagaimanakah mekanisme penggunaan Saldo Anggaran Lebih (SAL) untuk menutup defisit tahun anggaran berikutnya?",
+                options: [
+                    "A. Dapat digunakan secara bebas oleh Menteri Keuangan tanpa batasan.",
+                    "B. Harus mendapatkan persetujuan DPR dan dialokasikan dalam APBN/APBN-P.",
+                    "C. Hanya boleh digunakan untuk dana talangan kas awal tahun tanpa izin DPR.",
+                    "D. Dilarang keras digunakan untuk alasan apa pun dalam kondisi normal.",
+                    "E. Dialihkan otomatis menjadi dana abadi daerah."
+                ],
+                correct: 1,
+                explanation: "Penggunaan SAL untuk membiayai defisit tahun anggaran berikutnya harus mendapatkan persetujuan DPR dan dialokasikan dalam APBN/APBN-P."
+            },
+            {
+                q: "Apa nama aplikasi sistem informasi kolaborasi yang digunakan dalam proses penelaahan Rencana Kerja Kementerian/Lembaga (Renja-K/L) antara K/L, Bappenas, dan Kementerian Keuangan?",
+                options: [
+                    "A. KRISNA (Kolaborasi Rencana Kerja dan Informasi Kinerja Anggaran)",
+                    "B. SAKTI Online Mandiri",
+                    "C. SPAN Portal Nasional",
+                    "D. SIMAN BMN Pusat",
+                    "E. OMSPAN Monitoring"
+                ],
+                correct: 0,
+                explanation: "KRISNA (Kolaborasi Rencana Kerja dan Informasi Kinerja Anggaran) adalah sistem informasi perencanaan dan penganggaran bersama."
+            },
+            {
+                q: "Dalam konteks pengelolaan Barang Milik Negara, apa yang dimaksud dengan 'BMN Idle'?",
+                options: [
+                    "A. BMN yang mengalami kerusakan berat akibat bencana alam.",
+                    "B. BMN berupa tanah dan/atau bangunan yang tidak digunakan untuk menyelenggarakan tugas dan fungsi K/L.",
+                    "C. BMN yang sedang dalam proses sengketa di pengadilan.",
+                    "D. BMN berbentuk persediaan obat-obatan kedaluwarsa.",
+                    "E. BMN yang disewakan kepada pihak asing secara komersial penuh."
+                ],
+                correct: 1,
+                explanation: "BMN idle adalah BMN berupa tanah/bangunan yang tidak digunakan untuk menyelenggarakan tusi K/L."
+            },
+            {
+                q: "Manakah pilihan berikut yang merupakan contoh instrumen Pembiayaan Utang dari kategori Surat Berharga Negara (SBN) ritel domestik?",
+                options: [
+                    "A. Obligasi Negara Ritel (ORI) dan Sukuk Tabungan (ST)",
+                    "B. Pinjaman Program Bank Dunia",
+                    "C. Subsidiary Loan Agreement (SLA)",
+                    "D. Rekening Kas Umum Negara",
+                    "E. Pinjaman Bilateral dari Pemerintah Jepang"
+                ],
+                correct: 0,
+                explanation: "ORI dan Sukuk Tabungan (ST) adalah contoh instrumen SBN yang dijual kepada investor ritel di dalam negeri."
+            },
+            {
+                q: "Apa peran utama Badan Pengawasan Keuangan dan Pembangunan (BPKP) terkait laporan kinerja pemerintah?",
+                options: [
+                    "A. Menyusun undang-undang APBN bersama DPR.",
+                    "B. Melakukan reviu atas Laporan Kinerja Pemerintah Pusat (Lakin PP) dalam rangka meyakinkan keandalan informasi sebelum disampaikan.",
+                    "C. Menetapkan tarif layanan seluruh Badan Layanan Umum di Indonesia.",
+                    "D. Mencetak dokumen DIPA seluruh kementerian negara.",
+                    "E. Menyelenggarakan pemungutan pajak kendaraan bermotor di daerah."
+                ],
+                correct: 1,
+                explanation: "BPKP melakukan reviu atas Laporan Kinerja Pemerintah Pusat (Lakin PP) untuk memastikan keandalan informasi."
+            },
+            {
+                q: "Dalam kerangka hubungan keuangan pusat dan daerah, apa fungsi utama dari Opsen Pajak yang diatur dalam UU HKPD?",
+                options: [
+                    "A. Menghilangkan seluruh pendapatan asli daerah secara bertahap.",
+                    "B. Pungutan tambahan pajak menurut persentase tertentu (misalnya Opsen PKB/BBNKB) untuk memperkuat kemandirian fiskal daerah.",
+                    "C. Pajak khusus yang dibayarkan langsung kepada bank sentral internasional.",
+                    "D. Subsidi bahan bakar minyak untuk kendaraan dinas pemda.",
+                    "E. Pembatasan aktivitas ekonomi di wilayah perbatasan."
+                ],
+                correct: 1,
+                explanation: "Opsen pajak adalah pungutan tambahan persentase pajak untuk memperkuat kemandirian fiskal daerah."
+            },
+            {
+                q: "Mengapa reformasi pengelolaan APBN pasca reformasi memberlakukan sistem 'Anggaran Terpadu' (Unified Budget)?",
+                options: [
+                    "A. Untuk memisahkan secara total belanja rutin dan belanja pembangunan agar tidak pernah bertemu.",
+                    "B. Untuk mengintegrasikan seluruh jenis belanja guna menghindari duplikasi, inefisiensi, dan memudahkan pengawasan pencapaian tujuan.",
+                    "C. Agar seluruh anggaran dikelola langsung oleh Bank Indonesia tanpa melalui kementerian.",
+                    "D. Untuk menyembunyikan defisit anggaran dari pengawasan publik.",
+                    "E. Agar pemerintah daerah dapat mencetak mata uang sendiri."
+                ],
+                correct: 1,
+                explanation: "Anggaran terpadu menyatukan belanja rutin dan pembangunan untuk menghilangkan duplikasi, meningkatkan efisiensi, dan transparansi."
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(questionsDatabase.length).fill(null);
+        let timeLeft = 90 * 60; // 1 hours 30 minutes in seconds
+        let timerInterval = null;
+        let isReviewMode = false;
+
+        // DOM Elements
+        const welcomeView = document.getElementById('welcome-view');
+        const quizView = document.getElementById('quiz-view');
+        const resultView = document.getElementById('result-view');
+        const timerBox = document.getElementById('timer-box');
+        const timerEl = document.getElementById('timer');
+        const currentQNum = document.getElementById('current-q-num');
+        const totalQNum = document.getElementById('total-q-num');
+        const progressBar = document.getElementById('progress-bar');
+        const unansweredCount = document.getElementById('unanswered-count');
+        const questionBadge = document.getElementById('question-badge');
+        const questionId = document.getElementById('question-id');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const paletteGrid = document.getElementById('palette-grid');
+        const confirmModal = document.getElementById('confirm-modal');
+
+        totalQNum.textContent = questionsDatabase.length;
+
+        function startQuiz() {
+            welcomeView.classList.add('hidden');
+            quizView.classList.remove('hidden');
+            timerBox.classList.remove('hidden');
+            timerBox.classList.add('flex');
+            
+            buildPalette();
+            loadQuestion(0);
+            startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Waktu pengerjaan 1 jam 30 menit telah habis!");
+                    submitQuiz();
+                    return;
+                }
+                timeLeft--;
+                let hours = Math.floor(timeLeft / 3600);
+                let minutes = Math.floor((timeLeft % 3600) / 60);
+                let seconds = timeLeft % 60;
+                timerEl.textContent = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        function buildPalette() {
+            paletteGrid.innerHTML = '';
+            for (let i = 0; i < questionsDatabase.length; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i + 1;
+                btn.className = `w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center border ${
+                    userAnswers[i] !== null 
+                        ? 'bg-blue-600 border-blue-500 text-white' 
+                        : 'bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600'
+                }`;
+                btn.onclick = () => loadQuestion(i);
+                btn.id = `palette-btn-${i}`;
+                paletteGrid.appendChild(btn);
+            }
+        }
+
+        function updatePalette() {
+            for (let i = 0; i < questionsDatabase.length; i++) {
+                const btn = document.getElementById(`palette-btn-${i}`);
+                if (!btn) continue;
+                if (i === currentQuestionIndex) {
+                    btn.className = `w-7 h-7 rounded-lg text-xs font-extrabold flex items-center justify-center border ring-2 ring-amber-400 ${
+                        userAnswers[i] !== null ? 'bg-blue-600 border-white text-white' : 'bg-amber-500 border-amber-400 text-slate-950'
+                    }`;
+                } else {
+                    btn.className = `w-7 h-7 rounded-lg text-xs font-bold transition flex items-center justify-center border ${
+                        userAnswers[i] !== null 
+                            ? 'bg-blue-600 border-blue-500 text-white' 
+                            : 'bg-slate-700 border-slate-600 text-slate-300 hover:bg-slate-600'
+                    }`;
+                }
+            }
+        }
+
+        function loadQuestion(index) {
+            currentQuestionIndex = index;
+            const q = questionsDatabase[index];
+
+            currentQNum.textContent = index + 1;
+            questionId.textContent = `No. ${index + 1}`;
+            questionText.textContent = q.q;
+
+            // Update Progress & Unanswered
+            const answeredCount = userAnswers.filter(a => a !== null).length;
+            unansweredCount.textContent = questionsDatabase.length - answeredCount;
+            progressBar.style.width = `${((index + 1) / questionsDatabase.length) * 100}%`;
+
+            // Render Options
+            optionsContainer.innerHTML = '';
+            q.options.forEach((opt, optIdx) => {
+                const isSelected = userAnswers[index] === optIdx;
+                const optDiv = document.createElement('div');
+                optDiv.className = `p-4 rounded-xl border cursor-pointer transition flex items-center space-x-3 ${
+                    isSelected 
+                        ? 'bg-blue-600/30 border-blue-500 text-white font-medium shadow' 
+                        : 'bg-slate-900/50 border-slate-700 text-slate-300 hover:bg-slate-700/50 hover:border-slate-600'
+                }`;
+                optDiv.onclick = () => selectOption(optIdx);
+                
+                optDiv.innerHTML = `
+                    <div class="w-6 h-6 rounded-full border flex items-center justify-center text-xs font-bold ${
+                        isSelected ? 'bg-blue-500 border-blue-400 text-white' : 'border-slate-600 text-slate-400'
+                    }">${String.fromCharCode(65 + optIdx)}</div>
+                    <div class="flex-grow text-sm sm:text-base">${opt.substring(3)}</div>
+                `;
+                optionsContainer.appendChild(optDiv);
+            });
+
+            // Buttons state
+            prevBtn.disabled = index === 0;
+            if (index === questionsDatabase.length - 1) {
+                nextBtn.classList.add('hidden');
+                submitBtn.classList.remove('hidden');
+            } else {
+                nextBtn.classList.remove('hidden');
+                submitBtn.classList.add('hidden');
+            }
+
+            updatePalette();
+        }
+
+        function selectOption(optIdx) {
+            userAnswers[currentQuestionIndex] = optIdx;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questionsDatabase.length - 1) {
+                loadQuestion(currentQuestionIndex + 1);
+            }
+        }
+
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                loadQuestion(currentQuestionIndex - 1);
+            }
+        }
+
+        function confirmSubmit() {
+            const unanswered = userAnswers.filter(a => a === null).length;
+            if (unanswered > 0) {
+                confirmModal.classList.remove('hidden');
+            } else {
+                submitQuiz();
+            }
+        }
+
+        function closeModal() {
+            confirmModal.classList.add('hidden');
+        }
+
+        function submitQuiz() {
+            closeModal();
+            clearInterval(timerInterval);
+            timerBox.classList.add('hidden');
+            quizView.classList.add('hidden');
+            resultView.classList.remove('hidden');
+
+            // Calculate score & statistics
+            let correctCount = 0;
+            let wrongCount = 0;
+            let unansweredCountVal = 0;
+
+            userAnswers.forEach((ans, idx) => {
+                if (ans === null) {
+                    unansweredCountVal++;
+                } else if (ans === questionsDatabase[idx].correct) {
+                    correctCount++;
+                } else {
+                    wrongCount++;
+                }
+            });
+
+            const finalScore = Math.round((correctCount / questionsDatabase.length) * 100);
+            document.getElementById('score-display').textContent = finalScore;
+            document.getElementById('stat-correct').textContent = correctCount;
+            document.getElementById('stat-wrong').textContent = wrongCount;
+            document.getElementById('stat-unanswered').textContent = unansweredCountVal;
+            document.getElementById('stat-accuracy').textContent = `${Math.round((correctCount / (correctCount + wrongCount || 1)) * 100)}%`;
+
+            buildReviewList();
+        }
+
+        function toggleReviewMode() {
+            const container = document.getElementById('review-container');
+            container.classList.toggle('hidden');
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function buildReviewList() {
+            const reviewList = document.getElementById('review-list');
+            reviewList.innerHTML = '';
+
+            questionsDatabase.forEach((q, idx) => {
+                const userAns = userAnswers[idx];
+                const isCorrect = userAns === q.correct;
+                const isUnanswered = userAns === null;
+
+                const card = document.createElement('div');
+                card.className = `p-5 rounded-xl border ${
+                    isCorrect ? 'bg-slate-800/90 border-emerald-500/40' : 'bg-slate-800/90 border-rose-500/40'
+                } space-y-3`;
+
+                let optionsHtml = '';
+                q.options.forEach((opt, oIdx) => {
+                    let badge = '';
+                    let colorClass = 'text-slate-300';
+                    if (oIdx === q.correct) {
+                        badge = ' <span class="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-0.5 rounded font-bold">Kunci Benar</span>';
+                        colorClass = 'text-emerald-300 font-semibold';
+                    } else if (oIdx === userAns && !isCorrect) {
+                        badge = ' <span class="bg-rose-500/20 text-rose-400 text-xs px-2 py-0.5 rounded font-bold">Jawaban Anda</span>';
+                        colorClass = 'text-rose-300 font-semibold';
+                    }
+                    optionsHtml += `<div class="text-sm ${colorClass} py-1">${opt}${badge}</div>`;
+                });
+
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="text-xs font-mono text-slate-400">Soal Nomor ${idx + 1}</span>
+                        <span class="text-xs px-2.5 py-1 rounded-full font-bold ${
+                            isUnanswered ? 'bg-amber-500/20 text-amber-400' : isCorrect ? 'bg-emerald-500/20 text-emerald-400' : 'bg-rose-500/20 text-rose-400'
+                        }">${isUnanswered ? 'Tidak Dijawab' : isCorrect ? 'Benar ✓' : 'Salah ✕'}</span>
+                    </div>
+                    <h4 class="text-base font-semibold text-white">${q.q}</h4>
+                    <div class="space-y-1 bg-slate-900/60 p-3 rounded-lg border border-slate-700">
+                        ${optionsHtml}
+                    </div>
+                    <div class="bg-blue-950/40 border border-blue-900/50 p-3 rounded-lg text-xs sm:text-sm text-blue-200">
+                        <strong class="text-amber-400">Pembahasan / Evaluasi Modul:</strong> ${q.explanation}
+                    </div>
+                `;
+                reviewList.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
+
